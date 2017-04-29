@@ -1,0 +1,10 @@
+{
+  "root": "build",
+  "clean_urls": false,
+  "https_only": true,
+  "proxies": {
+  	"/v2/": {
+  		"origin": "https://api.airbnb.com/v2"
+  	}
+  }
+}
