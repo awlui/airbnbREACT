@@ -9,5 +9,13 @@ export default {
 		  });
 		  dispatch({type: constants.FETCHING_LOCATIONS});
 		}
-	} 
+	},
+	getByBounds(location, offset) {
+		return (dispatch) => {
+			airbnbAsync.getbyBounds(location, offset).then(res => {
+				dispatch({type: constants.FETCH_SUCCESS, data: res.data});
+			});
+			dispatch({type: constants.FETCHING_LOCATIONS});
+		}
+	}
 }

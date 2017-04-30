@@ -8,8 +8,10 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
+  InfoWindow
 } from "react-google-maps";
-
+import InfoBox from "../../../node_modules/react-google-maps/lib/addons/InfoBox";
+console.log(InfoBox, 'infobox')
 import mapStore from '../../stores/mapStore.js';
 import {default as airbnbAsync} from '../../sources/airbnbAsync';
 import {default as mapActions} from '../../actions/mapActions';
@@ -21,6 +23,18 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
     defaultZoom={4}
     onIdle={props.onIdle}
     defaultCenter={{ lat: 39.8282, lng: -98.5795 }}
+    defaultOptions={
+      {
+        styles: [
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#55B0C8'}]
+            }
+        ],
+        mapTypeControl: false
+      }
+    }
   >
   {props.markers.map((marker) => (
     <Marker 
@@ -63,6 +77,7 @@ export default class pageOne extends React.Component {
       this.state.bounds['swLat'] = this._mapComponent.getBounds().getSouthWest().lat();
       this.state.bounds['swLng'] = this._mapComponent.getBounds().getSouthWest().lng();
     }
+    mapStore.dispatch(mapActions.getByBounds(this.state.bound, 0));
     this.newBounds();
   }
   newBounds = () => {
@@ -107,7 +122,7 @@ export default class pageOne extends React.Component {
           }
           onMapLoad={this.setMapState}
           onIdle={this.handleIdle} 
-          markers={this.state.markers} 
+          markers={this.state.markers}
         />
       </div>
     );
