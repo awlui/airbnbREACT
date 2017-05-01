@@ -9,7 +9,8 @@ const PATHS = {
 	app: path.join(__dirname, 'app'),
 	build: path.join(__dirname, 'build'),
 	style: path.join(__dirname, 'app/main.scss'),
-	test: path.join(__dirname, 'tests')
+	test: path.join(__dirname, 'tests'),
+	boostrap: path.join(__dirname, 'node_modules/bootstrap-sass')
 };
 const pkg = require('./package.json');
 process.env.BABEL_ENV = TARGET;

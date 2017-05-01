@@ -7,7 +7,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Link
+  Link,
+  Redirect
 
 } from "react-router-dom";
 
@@ -16,7 +17,7 @@ import {
 import Application from "./containers";
 
 import pageOne from './pages/pageOne';
-
+import apartments from './pages/apartments';
 import pageTwo from './pages/pageTwo';
 export default class App extends Component {
   render() {
@@ -24,13 +25,13 @@ export default class App extends Component {
       <Router>
         <div className="App">
           <Application />
-          <Link to="/">pageOne</Link>
-          <Link to="next">pageTwo</Link>
-            <Grid style={{height: `100%`}} fluid>
-              <div style={{height: `100%`}} className="col-lg-6 full-height">
+            <Grid style={{height: `100%`, width: '100%'}} fluid>
+              <div style={{height: `100%`, width: '100%'}} >
               <Switch>
                 <Route exact path="/" component={pageOne} />
+                <Route path="/search" component={pageOne} />
                 <Route exact path="/next" component={pageTwo} />
+                <Redirect path="*" to="/" />
               </Switch>
               </div>
             </Grid>

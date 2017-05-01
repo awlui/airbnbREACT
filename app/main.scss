@@ -1,19 +1,32 @@
-      #map {
-        height: 500px;
-        width: 500px;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #root {
-        height: 100%;
-      }
+$bootstrap-sass-asset-helper: true;
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#root {
+  height: 100%;
+}
 .App {
   height: 100% !important;
 }
 #map {
   margin: 0 auto;
+  position: fixed;
+  padding-top: 5%;
+  z-index: 1000;
+  height: 100%;
+  width: 50%;
+  @media (max-width: $screen-md) {
+    display: none;
+  }
+}
+img {
+  height: 100%;
+}
+
+.navbar {
+  height: 10%;
 }

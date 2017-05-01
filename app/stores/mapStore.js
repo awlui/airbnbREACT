@@ -8,7 +8,14 @@ let mapStore;
 
 let initialState = {
 	listings: [],
-	markers: [],
+    markers: [{
+      position: {
+        lat: 25.0112183,
+        lng: 121.52067570000001
+      },
+      key: 'Taiwan',
+      defaultAnimation: 2
+    }],
 	bounds: {},
 	value: "",
 	isFetching: false
@@ -22,12 +29,26 @@ const reducer = function(state=initialState, action) {
 		  }
 		case constants.FETCH_SUCCESS:
 		  let listings = [];
-		  action.data.search_results.forEach((listing) =>{
-		  	listings.push(listing);
+		  action.data.search_results.forEach((listing) => {
+		  	let unwrappedListing = listing.listing;
+		  	let processedListing = {
+		  		position: {
+		  			lat: unwrappedListing.lat,
+		  			lng: unwrappedListing.lng
+		  		},
+		  		city: unwrappedListing.city,
+		  		bedrooms: unwrappedListing.bedrooms,
+		  		bathrooms: unwrappedListing.bathrooms,
+		  		beds: unwrappedListing.beds,
+		  		name: unwrappedListing.name,
+		  		neighborhood: unwrappedListing.neighborhood,
+		  		person_capacity: unwrappedListing.person_capacity,
+		  		picture_url: unwrappedListing.picture_url
+
+
+		  	};
+		  	listings.push({listing: processedListing, pricing: listing.pricing_quote});
 		  })
-		  console.log('Done Fetching');
-		  console.log('lat', action.data.search_results[0].listing.lat);
-		  console.log('lat', action.data.search_results[0].listing.lng);
 		  return {
 		  	...state, listings: listings, isFetching: false
 		  };

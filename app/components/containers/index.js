@@ -37,12 +37,22 @@ export default class Application extends Component {
             { name: `viewport`, content: `width=device-width, initial-scale=1` }
           ]}
         />
-        <Navbar fluid>
+        <Navbar fluid className="navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
               <Link to="/">React Google Maps</Link>
             </Navbar.Brand>
           </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav>
+              <NavItem>
+                <Link to="/">Page One</Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/next">Page Two</Link>
+              </NavItem>
+            </Nav>
+          </Navbar.Collapse>
         </Navbar>
       </div>
     );

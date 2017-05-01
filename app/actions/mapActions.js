@@ -2,17 +2,17 @@ import {default as airbnbAsync} from '../sources/airbnbAsync';
 import {default as constants} from '../actions/constants';
 let mapActions;
 export default {
-	getBySearch(location, offset) {
+	getBySearch(location, offset, limit) {
 		return (dispatch) => {
-		  airbnbAsync.getBySearch(location, offset).then(res => {
+		  airbnbAsync.getBySearch(location, offset, limit).then(res => {
 		  	dispatch({type: constants.FETCH_SUCCESS, data: res.data});
 		  });
 		  dispatch({type: constants.FETCHING_LOCATIONS});
 		}
 	},
-	getByBounds(location, offset) {
+	getByBounds(location, offset, limit) {
 		return (dispatch) => {
-			airbnbAsync.getbyBounds(location, offset).then(res => {
+			airbnbAsync.getByBounds(location, offset, limit).then(res => {
 				dispatch({type: constants.FETCH_SUCCESS, data: res.data});
 			});
 			dispatch({type: constants.FETCHING_LOCATIONS});
