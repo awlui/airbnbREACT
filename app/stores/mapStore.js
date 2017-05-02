@@ -19,7 +19,8 @@ let initialState = {
 	bounds: {},
 	value: "",
 	isFetching: false,
-	highlightNumber: null
+	highlightNumber: null,
+	currentInfoBox: "null"
 
 
 }
@@ -54,11 +55,15 @@ const reducer = function(state=initialState, action) {
 		  	listings.push({listing: processedListing, pricing: listing.pricing_quote});
 		  })
 		  return {
-		  	...state, listings: listings, isFetching: false, highlightNumber: null
+		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: "null"
 		  };
 		case constants.CHANGE_HIGHLIGHT:
 			return {
 				...state, highlightNumber: action.index
+			}
+		case constants.CHANGE_INFOBOX:
+			return {
+				...state, currentInfoBox: action.index
 			}
 		case constants.FETCH_FAILURE:
 		default:

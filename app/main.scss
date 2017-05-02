@@ -16,7 +16,7 @@ html, body {
   margin: 0 auto;
   position: fixed;
   margin-top: 6%;
-  z-index: 1000;
+  z-index: 500;
   height: 90%;
   width: 50%;
 }
@@ -63,17 +63,18 @@ img {
 }
 
 .info {
-  height: 45px;
-  width: 100px;
+  height: 50px;
+  width: 60px;
   padding: 0;
   font-size: 1.2em;
+  z-index: 200;
   overflow: hidden;
   background-color: transparent;
   position: relative;
   text-align: center;
-  & div {
+  cursor: pointer;
+  & div.listingPrice {
     background-color: white;
-    display: inline-block;
     position: relative;
     top: 10px;
     height: 30px;
@@ -81,7 +82,7 @@ img {
     margin: 0;
     z-index: 1;
   }
-  & div::after {
+  & div.listingPrice::after {
     content: "";
     position: absolute;
     left: 50%;
@@ -100,12 +101,26 @@ img {
   z-index: 1000;
 }
 
-.selected div.infoContent {
+.selected div.listingPrice {
   background-color: blue;
   color: white;
 }
 
-.selected div.infoContent::after {
+.selected div.listingPrice::after {
   border-color: blue transparent transparent transparent;
 
 }
+
+
+.currentInfoBox {
+
+}
+.listingContent {
+  z-index: 750;
+  width: 300px;
+  img {
+    width: 100%;
+    z-index: 1000;
+  }
+}
+

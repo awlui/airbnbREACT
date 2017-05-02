@@ -20,7 +20,8 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
     ref={(e) => props.onMapLoad(e)}
     defaultZoom={4}
-    onIdle={props.onIdle}
+    onDragEnd={props.onIdle}
+    onZoomChanged={props.onIdle}
     defaultCenter={{ lat: 39.8282, lng: -98.5795 }}
     defaultOptions={
       {
@@ -36,17 +37,24 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       }
     }
   >
-  {props.listings.map((listing) => (
+  {props.listings.map((listing, index) => (
     <Marker 
-      position={listing.position}
-      />
+      position={listing.listing.position}
+      >
+        {(index === props.currentInfoBox) && 
+          <InfoBox options={{ closeBoxURL: ``, alignBottom: false, pixelOffset: new google.maps.Size(-150, -250),  boxClass: "listingContent" }} 
+          key={index}><div><img src={listing.listing.picture_url} /></div></InfoBox>}
+      </Marker>
     ))}
   {props.listings.map((listing, index) =>  (
     <InfoBox 
       position={listing.listing.position}
-      options={{ closeBoxURL: ``, alignBottom: true, pixelOffset: new google.maps.Size(-50, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
+      key={index}
+      options={{ closeBoxURL: ``, defaultAnimation: 2, enableEventPropagation: true, alignBottom: true, pixelOffset: new google.maps.Size(-30, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
       >
-      <div className="info"><div className="infoContent">{listing.pricing.localized_currency + " " + listing.pricing.localized_nightly_price}</div></div>
+      <div className="info" >
+      <div onClick={(e) => {props.onInfoBoxClick(e, index)}} className="listingPrice">{listing.pricing.localized_currency + " " + listing.pricing.localized_nightly_price}</div>
+      </div>
     </InfoBox>
     )    
     )}
@@ -78,6 +86,9 @@ export default class pageOne extends React.Component {
     }
 
   }
+  onInfoBoxClick = (evt, index) => {
+    mapStore.dispatch({type: constants.CHANGE_INFOBOX, index});
+  }
   bootstrap = () => {
     mapStore.dispatch(mapActions.getBySearch("United States", 0, 10));
   }
@@ -101,6 +112,8 @@ export default class pageOne extends React.Component {
                 markers={this.state.markers}
                 listings={this.state.listings}
                 highlightNumber={this.state.highlightNumber}
+                onInfoBoxClick={this.onInfoBoxClick}
+                currentInfoBox={this.state.currentInfoBox}
               />
             </div>
             <div className="apartments col-md-6 col-sm-12">
