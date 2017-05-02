@@ -11,11 +11,28 @@ import {
   InfoWindow
 } from "react-google-maps";
 import InfoBox from "../../../node_modules/react-google-maps/lib/addons/InfoBox";
+import SearchBox from "../../../node_modules/react-google-maps/lib/places/SearchBox";
 import mapStore from '../../stores/mapStore.js';
 import {default as airbnbAsync} from '../../sources/airbnbAsync';
 import {default as mapActions} from '../../actions/mapActions';
 import {default as constants} from '../../actions/constants';
 import Apartments from './apartments';
+import Autocomplete from 'react-google-autocomplete';
+const INPUT_STYLE = {
+  boxSizing: `border-box`,
+  MozBoxSizing: `border-box`,
+  border: `1px solid transparent`,
+  width: `240px`,
+  height: `32px`,
+  marginTop: `10px`,
+  marginLeft: `10px`,
+  padding: `0 12px`,
+  borderRadius: `1px`,
+  boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+  fontSize: `14px`,
+  outline: `none`,
+  textOverflow: `ellipses`,
+};
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
     ref={(e) => props.onMapLoad(e)}
@@ -37,6 +54,12 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       }
     }
   >
+    <SearchBox
+      ref={props.onSearchBoxLoad}
+      controlPosition={google.maps.ControlPosition.TOP_LEFT}
+      inputPlaceholder="Search by place"
+      inputStyle={INPUT_STYLE}
+    />
   {props.listings.map((listing, index) => (
     <Marker 
       position={listing.listing.position}
@@ -77,8 +100,12 @@ export default class pageOne extends React.Component {
     this.unsubscribe();
 
   }
-  setMapState = (map) => {
+  handleMapLoad = (map) => {
     this._mapComponent = map;
+  }
+  handleSearchBoxLoad = (searchBox) => {
+    this._searchBox = searchBox;
+    console.log(searchBox);
   }
   handleIdle = () => {
     if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null)) {
@@ -91,15 +118,31 @@ export default class pageOne extends React.Component {
     }
 
   }
-  onInfoBoxClick = (evt, index) => {
+  handleInfoBoxClick = (evt, index) => {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index});
   }
   bootstrap = () => {
     mapStore.dispatch(mapActions.getBySearch("United States", 0, 10));
   }
-  onMapClick = () => {
+  handleMapClick = () => {
     console.log('map click')
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index: null});
+  }
+  handlePlacesChanged = () => {
+    const places = this._searchBox.getPlaces();
+
+    // Add a marker for each place returned from search bar
+    const markers = places.map(place => ({
+      position: place.geometry.location,
+    }));
+
+    // Set markers; set map center to first search result
+    const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
+
+    this.setState({
+      center: mapCenter,
+      markers,
+    });
   }
   render() {
     this.state = mapStore.getState();
@@ -116,14 +159,16 @@ export default class pageOne extends React.Component {
                 mapElement={
                   <div style={{ height: `100%`, width: `95%` }} />
                 }
-                onMapLoad={this.setMapState}
+                center={this.state.center}
+                onMapLoad={this.handleMapLoad}
+                onSearchBoxLoad={this.handleSearchBoxLoad}
                 onIdle={this.handleIdle} 
                 markers={this.state.markers}
                 listings={this.state.listings}
                 highlightNumber={this.state.highlightNumber}
-                onInfoBoxClick={this.onInfoBoxClick}
+                onInfoBoxClick={this.handleInfoBoxClick}
                 currentInfoBox={this.state.currentInfoBox}
-                onMapClick={this.onMapClick}
+                onMapClick={this.handleMapClick}
               />
             </div>
             <div className="apartments col-md-6 col-sm-12">

@@ -15,13 +15,14 @@ import {
   NavItem,
   NavDropdown,
   MenuItem,
+  Toggle
 } from "react-bootstrap";
 
 import {
   LinkContainer,
 } from "react-router-bootstrap";
 
-
+import Autocomplete from 'react-google-autocomplete';
 
 import Helmet from "react-helmet";
 
@@ -43,6 +44,7 @@ export default class Application extends Component {
               <Link to="/">React Google Maps</Link>
             </Navbar.Brand>
           </Navbar.Header>
+          <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav>
               <NavItem>
@@ -51,9 +53,19 @@ export default class Application extends Component {
               <NavItem>
                 <Link to="/next">Page Two</Link>
               </NavItem>
+              <NavItem>
+              </NavItem>
             </Nav>
           </Navbar.Collapse>
+            <Autocomplete
+    style={{width: '50%'}}
+    className="googleSearch"
+    onPlaceSelected={(place) => {
+      console.log(place);
+    }}
+/>
         </Navbar>
+
       </div>
     );
   }

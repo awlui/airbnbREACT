@@ -6,6 +6,9 @@ html, body {
   margin: 0;
   padding: 0;
 }
+body {
+  padding-top: 100px;
+}
 #root {
   height: 100%;
 }
@@ -15,9 +18,15 @@ html, body {
 #map {
   margin: 0 auto;
   position: fixed;
-  margin-top: 6%;
   z-index: 500;
-  height: 90%;
+/* Firefox */
+height: -moz-calc(100% - 100px);
+/* WebKit */
+height: -webkit-calc(100% - 100px);
+/* Opera */
+height: -o-calc(100% - 100px);
+/* Standard */
+height: calc(100% - 100px);
   width: 50%;
 }
 .mapContainer {
@@ -33,10 +42,9 @@ img {
 }
 
 .navbar {
-  height: 10%;
-  @media (max-width: $screen-md) {
-    height: 8%;
-  }
+  z-index: 950;
+  height: 100px;
+
 }
 
 .apartments {
@@ -125,4 +133,16 @@ img {
     z-index: 1000;
   }
 }
+.googleSearch {
+  z-index: 1000;
+  display: none;
+  @media (max-width: $screen-md) {
+    display: block;
+  }
+}
 
+.navbar-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

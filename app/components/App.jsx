@@ -25,16 +25,16 @@ export default class App extends Component {
       <Router>
         <div className="App">
           <Application />
-            <Grid style={{height: `100%`, width: '100%'}} fluid>
-              <div style={{height: `100%`, width: '100%'}} >
-              <Switch>
-                <Route exact path="/" component={pageOne} />
-                <Route path="/search" component={pageOne} />
-                <Route exact path="/next" component={pageTwo} />
-                <Redirect path="*" to="/" />
-              </Switch>
-              </div>
-            </Grid>
+          <Grid className="content" style={{height: `100%`, width: '100%'}} fluid>
+            <div style={{height: `100%`, width: '100%'}} >
+            <Switch>
+              <Route exact path="/" component={pageOne} />
+              <Route path="/search" component={pageOne} />
+              <Route exact path="/next" component={pageTwo} />
+              <Redirect path="*" to="/" />
+            </Switch>
+            </div>
+          </Grid>
         </div>
       </Router>
     );
