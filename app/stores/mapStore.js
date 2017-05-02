@@ -20,7 +20,7 @@ let initialState = {
 	value: "",
 	isFetching: false,
 	highlightNumber: null,
-	currentInfoBox: "null"
+	currentInfoBox: null
 
 
 }
@@ -48,14 +48,15 @@ const reducer = function(state=initialState, action) {
 		  		name: unwrappedListing.name,
 		  		neighborhood: unwrappedListing.neighborhood,
 		  		person_capacity: unwrappedListing.person_capacity,
-		  		picture_url: unwrappedListing.picture_url
+		  		picture_url: unwrappedListing.picture_url,
+		  		star_rating: unwrappedListing.star_rating
 
 
 		  	};
 		  	listings.push({listing: processedListing, pricing: listing.pricing_quote});
 		  })
 		  return {
-		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: "null"
+		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null
 		  };
 		case constants.CHANGE_HIGHLIGHT:
 			return {

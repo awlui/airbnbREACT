@@ -20,8 +20,8 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
     ref={(e) => props.onMapLoad(e)}
     defaultZoom={4}
-    onDragEnd={props.onIdle}
-    onZoomChanged={props.onIdle}
+    onIdle={props.onIdle}
+    onClick={props.onMapClick}
     defaultCenter={{ lat: 39.8282, lng: -98.5795 }}
     defaultOptions={
       {
@@ -42,15 +42,20 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       position={listing.listing.position}
       >
         {(index === props.currentInfoBox) && 
-          <InfoBox options={{ closeBoxURL: ``, alignBottom: false, pixelOffset: new google.maps.Size(-150, -250),  boxClass: "listingContent" }} 
-          key={index}><div><img src={listing.listing.picture_url} /></div></InfoBox>}
+          <InfoBox options={{ closeBoxURL: ``, alignBottom: false, pixelOffset: new google.maps.Size(-150, -280),  boxClass: "listingContent" }} 
+          key={index}>
+          <div>
+          <img src={listing.listing.picture_url} />
+          <p>{listing.listing.neighborhood}</p>
+          </div>
+          </InfoBox>}
       </Marker>
     ))}
   {props.listings.map((listing, index) =>  (
     <InfoBox 
       position={listing.listing.position}
       key={index}
-      options={{ closeBoxURL: ``, defaultAnimation: 2, enableEventPropagation: true, alignBottom: true, pixelOffset: new google.maps.Size(-30, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
+      options={{ closeBoxURL: ``, defaultAnimation: 2, enableEventPropagation: true, alignBottom: true, pixelOffset: new google.maps.Size(-35, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
       >
       <div className="info" >
       <div onClick={(e) => {props.onInfoBoxClick(e, index)}} className="listingPrice">{listing.pricing.localized_currency + " " + listing.pricing.localized_nightly_price}</div>
@@ -76,7 +81,7 @@ export default class pageOne extends React.Component {
     this._mapComponent = map;
   }
   handleIdle = () => {
-    if (this._mapComponent && $(window).width() > 992) {
+    if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null)) {
       this.state.bounds['neLat'] = this._mapComponent.getBounds().getNorthEast().lat();
       this.state.bounds['neLng'] = this._mapComponent.getBounds().getNorthEast().lng();
       this.state.bounds['swLat'] = this._mapComponent.getBounds().getSouthWest().lat();
@@ -91,6 +96,10 @@ export default class pageOne extends React.Component {
   }
   bootstrap = () => {
     mapStore.dispatch(mapActions.getBySearch("United States", 0, 10));
+  }
+  onMapClick = () => {
+    console.log('map click')
+    mapStore.dispatch({type: constants.CHANGE_INFOBOX, index: null});
   }
   render() {
     this.state = mapStore.getState();
@@ -114,6 +123,7 @@ export default class pageOne extends React.Component {
                 highlightNumber={this.state.highlightNumber}
                 onInfoBoxClick={this.onInfoBoxClick}
                 currentInfoBox={this.state.currentInfoBox}
+                onMapClick={this.onMapClick}
               />
             </div>
             <div className="apartments col-md-6 col-sm-12">
