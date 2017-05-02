@@ -18,7 +18,10 @@ let initialState = {
     }],
 	bounds: {},
 	value: "",
-	isFetching: false
+	isFetching: false,
+	highlightNumber: null
+
+
 }
 const middleware = applyMiddleware(thunk, logger);
 const reducer = function(state=initialState, action) {
@@ -32,10 +35,11 @@ const reducer = function(state=initialState, action) {
 		  action.data.search_results.forEach((listing) => {
 		  	let unwrappedListing = listing.listing;
 		  	let processedListing = {
-		  		position: {
-		  			lat: unwrappedListing.lat,
-		  			lng: unwrappedListing.lng
-		  		},
+		  		// position: {
+		  		// 	lat: unwrappedListing.lat,
+		  		// 	lng: unwrappedListing.lng
+		  		// },
+		  		position: new google.maps.LatLng(unwrappedListing.lat, unwrappedListing.lng),
 		  		city: unwrappedListing.city,
 		  		bedrooms: unwrappedListing.bedrooms,
 		  		bathrooms: unwrappedListing.bathrooms,
@@ -50,8 +54,12 @@ const reducer = function(state=initialState, action) {
 		  	listings.push({listing: processedListing, pricing: listing.pricing_quote});
 		  })
 		  return {
-		  	...state, listings: listings, isFetching: false
+		  	...state, listings: listings, isFetching: false, highlightNumber: null
 		  };
+		case constants.CHANGE_HIGHLIGHT:
+			return {
+				...state, highlightNumber: action.index
+			}
 		case constants.FETCH_FAILURE:
 		default:
 		  return state;

@@ -5828,16 +5828,82 @@ html, body {
 #map {
   margin: 0 auto;
   position: fixed;
-  padding-top: 5%;
+  margin-top: 6%;
   z-index: 1000;
-  height: 100%;
+  height: 90%;
   width: 50%; }
-  @media (max-width: 992px) {
-    #map {
-      display: none; } }
+
+@media (max-width: 992px) {
+  .mapContainer {
+    display: none; } }
 
 img {
-  height: 100%; }
+  @extends .img-responsive;
+  text-align: center;
+  width: 100%;
+  max-width: 500px; }
 
 .navbar {
   height: 10%; }
+  @media (max-width: 992px) {
+    .navbar {
+      height: 8%; } }
+
+.apartments {
+  margin-top: 8%; }
+  @media (max-width: 992px) {
+    .apartments {
+      margin-top: 10%; } }
+  @media (max-width: 768px) {
+    .apartments {
+      margin-top: 14%; } }
+  @media (max-width: 480px) {
+    .apartments {
+      margin-top: 18%; } }
+
+@media (max-width: 992px) {
+  .my-gallery-class div {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center; } }
+
+.info {
+  height: 45px;
+  width: 100px;
+  padding: 0;
+  font-size: 1.2em;
+  overflow: hidden;
+  background-color: transparent;
+  position: relative;
+  text-align: center; }
+  .info div {
+    background-color: white;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    height: 30px;
+    padding: 5px;
+    margin: 0;
+    z-index: 1; }
+  .info div::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    padding: 0;
+    margin: 0;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    z-index: 1; }
+
+.selected {
+  z-index: 1000; }
+
+.selected div.infoContent {
+  background-color: blue;
+  color: white; }
+
+.selected div.infoContent::after {
+  border-color: blue transparent transparent transparent; }

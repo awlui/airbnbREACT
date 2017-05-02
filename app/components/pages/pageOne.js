@@ -36,18 +36,20 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       }
     }
   >
-  {props.markers.map((marker) => (
+  {props.listings.map((listing) => (
     <Marker 
-      {...marker }
+      position={listing.position}
       />
     ))}
-  {props.listings.map((listing) => (
-    <InfoWindow 
-      {...listing.listing }
+  {props.listings.map((listing, index) =>  (
+    <InfoBox 
+      position={listing.listing.position}
+      options={{ closeBoxURL: ``, alignBottom: true, pixelOffset: new google.maps.Size(-50, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
       >
-      <div>{listing.pricing.localized_currency + " " + listing.pricing.localized_nightly_price}</div>
-    </InfoWindow>
-    ))}
+      <div className="info"><div className="infoContent">{listing.pricing.localized_currency + " " + listing.pricing.localized_nightly_price}</div></div>
+    </InfoBox>
+    )    
+    )}
   </GoogleMap>
 ));
 
@@ -56,30 +58,34 @@ export default class pageOne extends React.Component {
     this.unsubscribe = mapStore.subscribe(() => {
       this.forceUpdate();
     });
+    this.bootstrap();
   }
   componentWillUnmount() {
     this.unsubscribe();
+
   }
   setMapState = (map) => {
     this._mapComponent = map;
   }
   handleIdle = () => {
-    console.log(this._mapComponent)
-    if (this._mapComponent) {
+    if (this._mapComponent && $(window).width() > 992) {
       this.state.bounds['neLat'] = this._mapComponent.getBounds().getNorthEast().lat();
       this.state.bounds['neLng'] = this._mapComponent.getBounds().getNorthEast().lng();
       this.state.bounds['swLat'] = this._mapComponent.getBounds().getSouthWest().lat();
       this.state.bounds['swLng'] = this._mapComponent.getBounds().getSouthWest().lng();
-    }
     this.props.history.push(`search?neLat=${this.state.bounds['neLat']}`)
     mapStore.dispatch(mapActions.getByBounds(this.state.bounds, 0, 10));
-  }
+    }
 
+  }
+  bootstrap = () => {
+    mapStore.dispatch(mapActions.getBySearch("United States", 0, 10));
+  }
   render() {
     this.state = mapStore.getState();
     return (
           <div style={{height: `100%`}}>
-            <div style={{height: `100%`}} className="col-sm-6 col-xs-12">
+            <div style={{height: `100%`}} className="mapContainer col-md-6 col-sm-12">
               <Helmet
                 title="React Maps"
               />
@@ -94,9 +100,10 @@ export default class pageOne extends React.Component {
                 onIdle={this.handleIdle} 
                 markers={this.state.markers}
                 listings={this.state.listings}
+                highlightNumber={this.state.highlightNumber}
               />
             </div>
-            <div className="col-sm-6 col-xs-12">
+            <div className="apartments col-md-6 col-sm-12">
               <Apartments listings={this.state.listings} />
             </div>
           </div>
