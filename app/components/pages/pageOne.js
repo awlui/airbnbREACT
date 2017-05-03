@@ -149,7 +149,6 @@ export default class pageOne extends React.Component {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index});
   }
   bootstrap = () => {
-    console.log('bootstrapping!!!!')
   }
   handleMapClick = () => {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index: null});

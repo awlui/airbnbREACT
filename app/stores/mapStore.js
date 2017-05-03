@@ -22,10 +22,10 @@ let initialState = {
 	highlightNumber: null,
 	currentInfoBox: null,
 	appSize: null,
-	location: null,
+	location: "Los Angeles",
 	mapCenter: {
-        lat: 25.0112183,
-        lng: 121.52067570000001
+        lat: 34.0522342,
+        lng: -118.2436849
 	}
 
 

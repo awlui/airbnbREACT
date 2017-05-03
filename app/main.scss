@@ -8,6 +8,7 @@ html, body {
 }
 body {
   padding-top: 100px;
+  font-size: 16px;
 }
 #root {
   height: 100%;
@@ -19,14 +20,14 @@ body {
   margin: 0 auto;
   position: fixed;
   z-index: 500;
-/* Firefox */
-height: -moz-calc(100% - 100px);
-/* WebKit */
-height: -webkit-calc(100% - 100px);
-/* Opera */
-height: -o-calc(100% - 100px);
-/* Standard */
-height: calc(100% - 100px);
+  /* Firefox */
+  height: -moz-calc(100% - 100px);
+  /* WebKit */
+  height: -webkit-calc(100% - 100px);
+  /* Opera */
+  height: -o-calc(100% - 100px);
+  /* Standard */
+  height: calc(100% - 100px);
   width: 50%;
 }
 .mapContainer {
@@ -35,7 +36,6 @@ height: calc(100% - 100px);
   }
 }
 img {
-  @extends .img-responsive;
   text-align: center;
   width: 100%;
   max-width: 500px;
