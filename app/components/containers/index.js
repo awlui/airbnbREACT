@@ -25,9 +25,20 @@ import {
 import Autocomplete from 'react-google-autocomplete';
 
 import Helmet from "react-helmet";
+import {default as mapActions} from '../../actions/mapActions';
+import mapStore from '../../stores/mapStore.js';
 
 export default class Application extends Component {
+  handleOnPlaceChange = () => {
+    console.log(this._searchBox);
+    const places = this._searchBox.getPlaces();
 
+    mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
+  }
+  handleSearchBoxLoad = (searchBox) => {
+    this._searchBox = searchBox;
+    console.log(searchBox)
+  }
 
   render() {
     return (
@@ -44,6 +55,14 @@ export default class Application extends Component {
               <Link to="/">React Google Maps</Link>
             </Navbar.Brand>
           </Navbar.Header>
+            <Autocomplete
+              style={{width: '50%'}}
+              className="googleSearch"
+              ref={this.handleSearchBoxLoad}
+              onPlaceSelected={(place) => {
+                console.log(place);
+              }}
+            />
           <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav>
@@ -57,13 +76,7 @@ export default class Application extends Component {
               </NavItem>
             </Nav>
           </Navbar.Collapse>
-            <Autocomplete
-    style={{width: '50%'}}
-    className="googleSearch"
-    onPlaceSelected={(place) => {
-      console.log(place);
-    }}
-/>
+
         </Navbar>
 
       </div>

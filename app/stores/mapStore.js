@@ -20,7 +20,13 @@ let initialState = {
 	value: "",
 	isFetching: false,
 	highlightNumber: null,
-	currentInfoBox: null
+	currentInfoBox: null,
+	appSize: null,
+	location: null,
+	mapCenter: {
+        lat: 25.0112183,
+        lng: 121.52067570000001
+	}
 
 
 }
@@ -36,10 +42,6 @@ const reducer = function(state=initialState, action) {
 		  action.data.search_results.forEach((listing) => {
 		  	let unwrappedListing = listing.listing;
 		  	let processedListing = {
-		  		// position: {
-		  		// 	lat: unwrappedListing.lat,
-		  		// 	lng: unwrappedListing.lng
-		  		// },
 		  		position: new google.maps.LatLng(unwrappedListing.lat, unwrappedListing.lng),
 		  		city: unwrappedListing.city,
 		  		bedrooms: unwrappedListing.bedrooms,
@@ -56,7 +58,7 @@ const reducer = function(state=initialState, action) {
 		  	listings.push({listing: processedListing, pricing: listing.pricing_quote});
 		  })
 		  return {
-		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null
+		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null, location: action.location, bounds: action.bounds
 		  };
 		case constants.CHANGE_HIGHLIGHT:
 			return {
@@ -65,6 +67,10 @@ const reducer = function(state=initialState, action) {
 		case constants.CHANGE_INFOBOX:
 			return {
 				...state, currentInfoBox: action.index
+			}
+		case constants.CHANGE_SIZE:
+			return {
+				...state, appSize: action.size
 			}
 		case constants.FETCH_FAILURE:
 		default:

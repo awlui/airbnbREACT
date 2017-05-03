@@ -5819,6 +5819,9 @@ html, body {
   margin: 0;
   padding: 0; }
 
+body {
+  padding-top: 100px; }
+
 #root {
   height: 100%; }
 
@@ -5828,9 +5831,16 @@ html, body {
 #map {
   margin: 0 auto;
   position: fixed;
-  margin-top: 6%;
   z-index: 500;
-  height: 90%;
+  /* Firefox */
+  height: -moz-calc(100% - 100px);
+  /* WebKit */
+  height: -webkit-calc(100% - 100px);
+  /* Opera */
+  height: -o-calc(100% - 100px);
+  /* Standard */
+  height: calc(100% - 100px);
+  height: 100%;
   width: 50%; }
 
 @media (max-width: 992px) {
@@ -5844,22 +5854,18 @@ img {
   max-width: 500px; }
 
 .navbar {
-  height: 10%; }
-  @media (max-width: 992px) {
-    .navbar {
-      height: 8%; } }
+  z-index: 950;
+  height: 100px; }
 
 .apartments {
-  margin-top: 8%; }
-  @media (max-width: 992px) {
-    .apartments {
-      margin-top: 10%; } }
-  @media (max-width: 768px) {
-    .apartments {
-      margin-top: 14%; } }
-  @media (max-width: 480px) {
-    .apartments {
-      margin-top: 18%; } }
+  height: -moz-calc(100% - 100px);
+  /* WebKit */
+  height: -webkit-calc(100% - 100px);
+  /* Opera */
+  height: -o-calc(100% - 100px);
+  /* Standard */
+  height: calc(100% - 100px);
+  padding: 40px 20px; }
 
 @media (max-width: 992px) {
   .my-gallery-class div {
@@ -5915,3 +5921,41 @@ img {
   .listingContent img {
     max-height: 200px;
     z-index: 1000; }
+
+.googleSearch {
+  z-index: 1000;
+  display: none; }
+  @media (max-width: 992px) {
+    .googleSearch {
+      display: block; } }
+
+.navbar-toggle {
+  position: absolute;
+  top: 0;
+  right: 0; }
+
+@media (max-width: 992px) {
+  .navbar-header {
+    float: none; }
+  .navbar-left, .navbar-right {
+    float: none !important; }
+  .navbar-toggle {
+    display: block; }
+  .navbar-collapse {
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+  .navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px; }
+  .navbar-collapse.collapse {
+    display: none !important; }
+  .navbar-nav {
+    float: none !important;
+    margin-top: 7.5px; }
+  .navbar-nav > li {
+    float: none; }
+  .navbar-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px; }
+  .collapse.in {
+    display: block !important; } }

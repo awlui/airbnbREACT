@@ -17,7 +17,6 @@ import {default as airbnbAsync} from '../../sources/airbnbAsync';
 import {default as mapActions} from '../../actions/mapActions';
 import {default as constants} from '../../actions/constants';
 import Apartments from './apartments';
-import Autocomplete from 'react-google-autocomplete';
 const INPUT_STYLE = {
   boxSizing: `border-box`,
   MozBoxSizing: `border-box`,
@@ -33,13 +32,32 @@ const INPUT_STYLE = {
   outline: `none`,
   textOverflow: `ellipses`,
 };
+function padBounds(map, npad, spad, epad, wpad) {
+    var SW = map.getBounds().getSouthWest();
+    var NE = map.getBounds().getNorthEast();
+    var topRight = map.getProjection().fromLatLngToPoint(NE);
+    var bottomLeft = map.getProjection().fromLatLngToPoint(SW);
+    var scale = Math.pow(2, map.getZoom());
+
+    var SWtopoint = map.getProjection().fromLatLngToPoint(SW);
+    var SWpoint = new google.maps.Point(((SWtopoint.x - bottomLeft.x) * scale) + wpad, ((SWtopoint.y - topRight.y) * scale) - spad);
+    var SWworld = new google.maps.Point(SWpoint.x / scale + bottomLeft.x, SWpoint.y / scale + topRight.y);
+    var pt1 = map.getProjection().fromPointToLatLng(SWworld);
+
+    var NEtopoint = map.getProjection().fromLatLngToPoint(NE);
+    var NEpoint = new google.maps.Point(((NEtopoint.x - bottomLeft.x) * scale) - epad, ((NEtopoint.y - topRight.y) * scale) + npad);
+    var NEworld = new google.maps.Point(NEpoint.x / scale + bottomLeft.x, NEpoint.y / scale + topRight.y);
+    var pt2 = map.getProjection().fromPointToLatLng(NEworld);
+
+    return new google.maps.LatLngBounds(pt1, pt2);
+}
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
-    ref={(e) => props.onMapLoad(e)}
+    ref={props.onMapLoad}
     defaultZoom={4}
     onIdle={props.onIdle}
     onClick={props.onMapClick}
-    defaultCenter={{ lat: 39.8282, lng: -98.5795 }}
+    center={props.center}
     defaultOptions={
       {
         styles: [
@@ -59,6 +77,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       controlPosition={google.maps.ControlPosition.TOP_LEFT}
       inputPlaceholder="Search by place"
       inputStyle={INPUT_STYLE}
+      onPlacesChanged={props.onPlacesChanged}
     />
   {props.listings.map((listing, index) => (
     <Marker 
@@ -105,16 +124,21 @@ export default class pageOne extends React.Component {
   }
   handleSearchBoxLoad = (searchBox) => {
     this._searchBox = searchBox;
-    console.log(searchBox);
   }
   handleIdle = () => {
-    if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null)) {
-      this.state.bounds['neLat'] = this._mapComponent.getBounds().getNorthEast().lat();
-      this.state.bounds['neLng'] = this._mapComponent.getBounds().getNorthEast().lng();
-      this.state.bounds['swLat'] = this._mapComponent.getBounds().getSouthWest().lat();
-      this.state.bounds['swLng'] = this._mapComponent.getBounds().getSouthWest().lng();
-    this.props.history.push(`search?neLat=${this.state.bounds['neLat']}`)
-    mapStore.dispatch(mapActions.getByBounds(this.state.bounds, 0, 10));
+    if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null) && (this.state.isFetching === false)) {
+      if (this.state.appSize === "mobile") {
+        this._mapComponent.fitBounds(this.state.bounds);
+        mapStore.dispatch({type: constants.CHANGE_SIZE, size: "desktop"});
+        return;
+      }
+      let paddedBounds = padBounds(this._mapComponent, 100, 100, 100, 100);
+      this.props.history.push(`search?neLat=${this._mapComponent.getBounds().getNorthEast().lat()}&neLng=${this._mapComponent.getBounds().getNorthEast().lng()}&swLat=${this._mapComponent.getBounds().getSouthWest().lat()}&swLng=${this._mapComponent.getBounds().getSouthWest().lng()}`)
+      mapStore.dispatch(mapActions.getByBounds(paddedBounds, 0, 10));
+    }
+
+    if ($(window).width() < 992) {
+      mapStore.dispatch({ type: constants.CHANGE_SIZE, size: "mobile" });
     }
 
   }
@@ -122,27 +146,21 @@ export default class pageOne extends React.Component {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index});
   }
   bootstrap = () => {
-    mapStore.dispatch(mapActions.getBySearch("United States", 0, 10));
+    console.log('bootstrapping!!!!')
   }
   handleMapClick = () => {
-    console.log('map click')
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index: null});
   }
   handlePlacesChanged = () => {
     const places = this._searchBox.getPlaces();
-
     // Add a marker for each place returned from search bar
     const markers = places.map(place => ({
       position: place.geometry.location,
     }));
-
     // Set markers; set map center to first search result
     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
-
-    this.setState({
-      center: mapCenter,
-      markers,
-    });
+    this._mapComponent.fitBounds(places[0].geometry.viewport)
+    mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
   }
   render() {
     this.state = mapStore.getState();
@@ -169,9 +187,11 @@ export default class pageOne extends React.Component {
                 onInfoBoxClick={this.handleInfoBoxClick}
                 currentInfoBox={this.state.currentInfoBox}
                 onMapClick={this.handleMapClick}
+                center={this.state.mapCenter}
+                onPlacesChanged={this.handlePlacesChanged}
               />
             </div>
-            <div className="apartments col-md-6 col-sm-12">
+            <div className={this.state.isFetching ? ' apartments col-md-6 col-sm-12 loading' : 'apartments col-md-6 col-sm-12'}>
               <Apartments listings={this.state.listings} />
             </div>
           </div>
