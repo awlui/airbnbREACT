@@ -13,7 +13,7 @@ export default class Apartments extends React.Component {
 	render() {
 		return (
 			<Masonry
-				className={'my-gallery-class'}
+				className='my-gallery-class'
 				elementType={'div'}
 				>
 				{this.props.listings.map((listing, index) => (

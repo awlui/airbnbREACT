@@ -18,11 +18,11 @@ import {
   Toggle
 } from "react-bootstrap";
 
+import Geosuggest from 'react-geosuggest';
 import {
   LinkContainer,
 } from "react-router-bootstrap";
 
-import Autocomplete from 'react-google-autocomplete';
 
 import Helmet from "react-helmet";
 import {default as mapActions} from '../../actions/mapActions';
@@ -35,11 +35,10 @@ export default class Application extends Component {
 
     mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
   }
-  handleSearchBoxLoad = (searchBox) => {
-    this._searchBox = searchBox;
-    console.log(searchBox)
+  onSuggestSelect = (suggest) => {
+    console.log(suggest);
+    mapStore.dispatch(mapActions.getBySearch(suggest.gmaps.formatted_address, 0, 10, suggest.gmaps.geometry.viewport))
   }
-
   render() {
     return (
       <div>
@@ -55,13 +54,11 @@ export default class Application extends Component {
               <Link to="/">React Google Maps</Link>
             </Navbar.Brand>
           </Navbar.Header>
-            <Autocomplete
-              style={{width: '50%'}}
-              className="googleSearch"
-              ref={this.handleSearchBoxLoad}
-              onPlaceSelected={(place) => {
-                console.log(place);
-              }}
+            <Geosuggest 
+              ref={el=> this._searchBox=el}
+              placeholder="Search Location"
+              onSuggestSelect={this.onSuggestSelect}
+              skipSuggest={() => true}
             />
           <Navbar.Toggle />
           <Navbar.Collapse>

@@ -53,7 +53,7 @@
     "bootstrap-sass": "^3.3.7",
     "react-addons-update": "^15.5.2",
     "react-bootstrap": "^0.31.0",
-    "react-google-autocomplete": "^1.0.13",
+    "react-geosuggest": "^2.1.0",
     "react-google-maps": "^6.3.0",
     "react-helmet": "^5.0.3",
     "react-masonry-component": "^5.0.5",

@@ -124,11 +124,14 @@ export default class pageOne extends React.Component {
   }
   handleSearchBoxLoad = (searchBox) => {
     this._searchBox = searchBox;
+    console.log(searchBox)
   }
   handleIdle = () => {
     if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null) && (this.state.isFetching === false)) {
       if (this.state.appSize === "mobile") {
         this._mapComponent.fitBounds(this.state.bounds);
+        this._searchBox._inputElement.value = this.state.location;
+        this.forceUpdate();
         mapStore.dispatch({type: constants.CHANGE_SIZE, size: "desktop"});
         return;
       }
