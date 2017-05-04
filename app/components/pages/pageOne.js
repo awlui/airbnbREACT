@@ -3,7 +3,7 @@ import _ from "lodash";
 import React from 'react';
 
 import Helmet from "react-helmet";
-
+import queryString from 'query-string';
 import {
   withGoogleMap,
   GoogleMap,
@@ -54,7 +54,7 @@ function padBounds(map, npad, spad, epad, wpad) {
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
-    defaultZoom={4}
+    defaultZoom={10}
     onIdle={props.onIdle}
     onClick={props.onMapClick}
     center={props.center}
@@ -124,7 +124,7 @@ export default class pageOne extends React.Component {
   }
   handleSearchBoxLoad = (searchBox) => {
     this._searchBox = searchBox;
-    console.log(searchBox)
+    console.log(searchBox, 'searchbox')
   }
   handleIdle = () => {
     if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null) && (this.state.isFetching === false)) {
@@ -149,11 +149,24 @@ export default class pageOne extends React.Component {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index});
   }
   bootstrap = () => {
+      let parsed = queryString.parse(this.props.location.search);
+      let bounds;
+      if (!_.isEmpty(parsed)) {
+        if (_.isEqual(Object.keys(parsed).sort(), ["neLat", "neLng", "swLat", "swLng"].sort())) {
+          bounds = new google.maps.LatLngBounds({lat: parseFloat(parsed["swLat"], 10), lng: parseFloat(parsed["swLng"], 10)}, {lat: parseFloat(parsed["neLat"], 10), lng: parseFloat(parsed["neLng"], 10)});
+          mapStore.dispatch(mapActions.getByBounds(bounds, 0, 10));
+        } else if (_.isEqual(Object.keys(parsed).sort(), ["location"])) {
+          // mapStore.dispatch(mapActions.getBySearch())
+        }
+      } else {
+          mapStore.dispatch(mapActions.getBySearch(this.state.location, 0, 10, this.state.bounds));
+      }
   }
   handleMapClick = () => {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index: null});
   }
   handlePlacesChanged = () => {
+    console.log('hit searchbox')
     const places = this._searchBox.getPlaces();
     // Add a marker for each place returned from search bar
     const markers = places.map(place => ({
@@ -194,7 +207,7 @@ export default class pageOne extends React.Component {
               />
             </div>
             <div className={this.state.isFetching ? ' apartments col-md-6 col-sm-12 loading' : 'apartments col-md-6 col-sm-12'}>
-              <Apartments listings={this.state.listings} />
+              {this.state.noResults ? <h2>No Results Found</h2> : <Apartments listings={this.state.listings} />}
             </div>
           </div>
     );

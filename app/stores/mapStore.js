@@ -16,7 +16,7 @@ let initialState = {
       key: 'Taiwan',
       defaultAnimation: 2
     }],
-	bounds: {},
+	bounds: new google.maps.LatLngBounds({lat: 34.3373061, lng: -118.6681759}, {lat: 33.7036917, lng: -118.1552891}),
 	value: "",
 	isFetching: false,
 	highlightNumber: null,
@@ -24,9 +24,11 @@ let initialState = {
 	appSize: null,
 	location: "Los Angeles",
 	mapCenter: {
-        lat: 34.0522342,
-        lng: -118.2436849
-	}
+		lat: 34.0522342,
+		lng: -118.2436849
+	},
+	noResults: false
+
 
 
 }
@@ -39,6 +41,7 @@ const reducer = function(state=initialState, action) {
 		  }
 		case constants.FETCH_SUCCESS:
 		  let listings = [];
+		  let noResults = false;
 		  action.data.search_results.forEach((listing) => {
 		  	let unwrappedListing = listing.listing;
 		  	let processedListing = {
@@ -57,8 +60,11 @@ const reducer = function(state=initialState, action) {
 		  	};
 		  	listings.push({listing: processedListing, pricing: listing.pricing_quote});
 		  })
+		  if (listings.length === 0) {
+		  	noResults = true;
+		  }
 		  return {
-		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null, location: action.location, bounds: action.bounds
+		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null, location: action.location, bounds: action.bounds, noResults
 		  };
 		case constants.CHANGE_HIGHLIGHT:
 			return {

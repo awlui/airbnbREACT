@@ -148,6 +148,10 @@ img {
     display:block;
   }
 }
+
+.loading {
+  opacity: 0.5;
+}
 //bootstrap collapse breakpoint override
 @media (max-width: $screen-md) {
     .navbar-header {

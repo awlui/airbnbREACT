@@ -36,7 +36,6 @@ export default class Application extends Component {
     mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
   }
   onSuggestSelect = (suggest) => {
-    console.log(suggest);
     mapStore.dispatch(mapActions.getBySearch(suggest.gmaps.formatted_address, 0, 10, suggest.gmaps.geometry.viewport))
   }
   render() {

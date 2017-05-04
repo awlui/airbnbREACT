@@ -5935,6 +5935,9 @@ img {
     .geosuggest {
       display: block; } }
 
+.loading {
+  opacity: 0.5; }
+
 @media (max-width: 992px) {
   .navbar-header {
     float: none; }
