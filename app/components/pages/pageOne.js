@@ -17,6 +17,7 @@ import {default as airbnbAsync} from '../../sources/airbnbAsync';
 import {default as mapActions} from '../../actions/mapActions';
 import {default as constants} from '../../actions/constants';
 import Apartments from './apartments';
+import Pagination from '../presentation/pagination';
 const INPUT_STYLE = {
   boxSizing: `border-box`,
   MozBoxSizing: `border-box`,
@@ -124,13 +125,12 @@ export default class pageOne extends React.Component {
   }
   handleSearchBoxLoad = (searchBox) => {
     this._searchBox = searchBox;
-    console.log(searchBox, 'searchbox')
   }
   handleIdle = () => {
     if (this._mapComponent && $(window).width() > 992 && (this.state.currentInfoBox === null) && (this.state.isFetching === false)) {
       if (this.state.appSize === "mobile") {
         this._mapComponent.fitBounds(this.state.bounds);
-        this._searchBox._inputElement.value = this.state.location;
+        this._searchBox._inputElement.value = this.state.location || "";
         this.forceUpdate();
         mapStore.dispatch({type: constants.CHANGE_SIZE, size: "desktop"});
         return;
@@ -138,6 +138,7 @@ export default class pageOne extends React.Component {
       let paddedBounds = padBounds(this._mapComponent, 100, 100, 100, 100);
       this.props.history.push(`search?neLat=${this._mapComponent.getBounds().getNorthEast().lat()}&neLng=${this._mapComponent.getBounds().getNorthEast().lng()}&swLat=${this._mapComponent.getBounds().getSouthWest().lat()}&swLng=${this._mapComponent.getBounds().getSouthWest().lng()}`)
       mapStore.dispatch(mapActions.getByBounds(paddedBounds, 0, 10));
+      mapStore.dispatch({type: constants.CHANGE_PAGE, page: 1});
     }
 
     if ($(window).width() < 992) {
@@ -147,6 +148,7 @@ export default class pageOne extends React.Component {
   }
   handleInfoBoxClick = (evt, index) => {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index});
+    mapStore.dispatch({type: constants.CHANGE_HIGHLIGHT, index});
   }
   bootstrap = () => {
       let parsed = queryString.parse(this.props.location.search);
@@ -155,18 +157,16 @@ export default class pageOne extends React.Component {
         if (_.isEqual(Object.keys(parsed).sort(), ["neLat", "neLng", "swLat", "swLng"].sort())) {
           bounds = new google.maps.LatLngBounds({lat: parseFloat(parsed["swLat"], 10), lng: parseFloat(parsed["swLng"], 10)}, {lat: parseFloat(parsed["neLat"], 10), lng: parseFloat(parsed["neLng"], 10)});
           mapStore.dispatch(mapActions.getByBounds(bounds, 0, 10));
-        } else if (_.isEqual(Object.keys(parsed).sort(), ["location"])) {
-          // mapStore.dispatch(mapActions.getBySearch())
-        }
+        } 
       } else {
           mapStore.dispatch(mapActions.getBySearch(this.state.location, 0, 10, this.state.bounds));
       }
   }
   handleMapClick = () => {
     mapStore.dispatch({type: constants.CHANGE_INFOBOX, index: null});
+    mapStore.dispatch({type: constants.CHANGE_HIGHLIGHT, index: null});
   }
   handlePlacesChanged = () => {
-    console.log('hit searchbox')
     const places = this._searchBox.getPlaces();
     // Add a marker for each place returned from search bar
     const markers = places.map(place => ({
@@ -176,6 +176,12 @@ export default class pageOne extends React.Component {
     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
     this._mapComponent.fitBounds(places[0].geometry.viewport)
     mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
+    mapStore.dispatch({type: constants.CHANGE_PAGE, page: 1});
+    this.props.history.push(`search?neLat=${places[0].geometry.viewport.getNorthEast().lat()}&neLng=${places[0].geometry.viewport.getNorthEast().lng()}&swLat=${places[0].geometry.viewport.getSouthWest().lat()}&swLng=${places[0].geometry.viewport.getSouthWest().lng()}`);
+  }
+  changePage = (page) => {
+    mapStore.dispatch({type: constants.CHANGE_PAGE, page});
+    mapStore.dispatch(mapActions.getByBounds(this.state.bounds, (page-1)*10, 10));
   }
   render() {
     this.state = mapStore.getState();
@@ -207,7 +213,7 @@ export default class pageOne extends React.Component {
               />
             </div>
             <div className={this.state.isFetching ? ' apartments col-md-6 col-sm-12 loading' : 'apartments col-md-6 col-sm-12'}>
-              {this.state.noResults ? <h2>No Results Found</h2> : <Apartments listings={this.state.listings} />}
+              {this.state.noResults ? <h2>No Results Found</h2> : (<div><Pagination listingsCount={this.state.listingsCount} currentPage={this.state.currentPage} changePage={this.changePage} listingsPerPage={10}/><Apartments listings={this.state.listings} /></div>) }
             </div>
           </div>
     );

@@ -98,6 +98,7 @@ img {
 }
 
 .selected {
+  z-index: 500;
 }
 
 .selected div.listingPrice {
@@ -152,6 +153,37 @@ img {
 .loading {
   opacity: 0.5;
 }
+
+.paginationBar {
+  list-style-type: none;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  li {
+    outline: inherit;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    border-radius: 50%;
+    color: blue;
+    display: inline-block;
+    margin: 0 25px;
+    font-size: 1.2em;
+    a {
+      cursor: pointer;
+    }
+  }
+  .currentPage {
+    background-color: blue;
+    a {
+      color: white;
+      outline: inherit;
+    }
+  }
+}
+
 //bootstrap collapse breakpoint override
 @media (max-width: $screen-md) {
     .navbar-header {

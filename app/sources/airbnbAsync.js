@@ -9,7 +9,7 @@ export default {
 			url += `&_offset=${offset}`;
 		}
 		if (limit) {
-			url += `&_limit=${limit}`;
+			url += `&_limit=${20}`;
 		}
 		return axios.get(url);
 	},

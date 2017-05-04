@@ -27,7 +27,9 @@ let initialState = {
 		lat: 34.0522342,
 		lng: -118.2436849
 	},
-	noResults: false
+	noResults: false,
+	currentPage: 1,
+	listingCount: 0
 
 
 
@@ -64,7 +66,7 @@ const reducer = function(state=initialState, action) {
 		  	noResults = true;
 		  }
 		  return {
-		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null, location: action.location, bounds: action.bounds, noResults
+		  	...state, listings: listings, isFetching: false, highlightNumber: null, currentInfoBox: null, location: action.location, bounds: action.bounds, noResults, listingsCount: action.data.metadata.listings_count
 		  };
 		case constants.CHANGE_HIGHLIGHT:
 			return {
@@ -77,6 +79,14 @@ const reducer = function(state=initialState, action) {
 		case constants.CHANGE_SIZE:
 			return {
 				...state, appSize: action.size
+			}
+		case constants.CHANGE_CENTER:
+			return {
+				...state, mapCenter: action.center
+			}
+		case constants.CHANGE_PAGE:
+			return {
+				...state, currentPage: action.page
 			}
 		case constants.FETCH_FAILURE:
 		default:

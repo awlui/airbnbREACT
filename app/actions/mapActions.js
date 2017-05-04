@@ -19,7 +19,7 @@ export default {
 				"swLng": location.getSouthWest().lng()
 			}
 			airbnbAsync.getByBounds(bounds, offset, limit).then(res => {
-				dispatch({type: constants.FETCH_SUCCESS, data: res.data});
+				dispatch({type: constants.FETCH_SUCCESS, data: res.data, bounds: location});
 			});
 			dispatch({type: constants.FETCHING_LOCATIONS});
 		}
