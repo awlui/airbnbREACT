@@ -18,6 +18,7 @@ import {default as mapActions} from '../../actions/mapActions';
 import {default as constants} from '../../actions/constants';
 import Apartments from './apartments';
 import Pagination from '../presentation/pagination';
+import Stars from '../presentation/stars';
 const INPUT_STYLE = {
   boxSizing: `border-box`,
   MozBoxSizing: `border-box`,
@@ -89,7 +90,9 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
           key={index}>
           <div>
           <img src={listing.listing.picture_url} />
-          <p>{listing.listing.neighborhood}</p>
+          <p>{listing.listing.name}</p>
+          <p>{listing.pricing.rate.amount_formatted}</p>
+          {listing.listing.star_rating ? <Stars rating={listing.listing.star_rating} /> : null }
           </div>
           </InfoBox>}
       </Marker>
@@ -101,7 +104,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       options={{ closeBoxURL: ``, defaultAnimation: 2, enableEventPropagation: true, alignBottom: true, pixelOffset: new google.maps.Size(-35, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
       >
       <div className="info" >
-      <div onClick={(e) => {props.onInfoBoxClick(e, index)}} className="listingPrice">{listing.pricing.localized_currency + " " + listing.pricing.localized_nightly_price}</div>
+      <div onClick={(e) => {props.onInfoBoxClick(e, index)}} className="listingPrice">{listing.pricing.rate.amount_formatted}</div>
       </div>
     </InfoBox>
     )    
@@ -159,7 +162,8 @@ export default class pageOne extends React.Component {
           mapStore.dispatch(mapActions.getByBounds(bounds, 0, 10));
         } 
       } else {
-          mapStore.dispatch(mapActions.getBySearch(this.state.location, 0, 10, this.state.bounds));
+        //Use bounds instead
+          mapStore.dispatch(mapActions.getByBounds(this.state.bounds, 0, 10));
       }
   }
   handleMapClick = () => {
@@ -187,7 +191,7 @@ export default class pageOne extends React.Component {
     this.state = mapStore.getState();
     return (
           <div style={{height: `100%`}}>
-            <div style={{height: `100%`}} className="mapContainer col-md-6 col-sm-12">
+            <div style={{height: `100%`}} className="mapContainer col-md-5 col-sm-12">
               <Helmet
                 title="React Maps"
               />
@@ -212,8 +216,8 @@ export default class pageOne extends React.Component {
                 onPlacesChanged={this.handlePlacesChanged}
               />
             </div>
-            <div className={this.state.isFetching ? ' apartments col-md-6 col-sm-12 loading' : 'apartments col-md-6 col-sm-12'}>
-              {this.state.noResults ? <h2>No Results Found</h2> : (<div><Pagination listingsCount={this.state.listingsCount} currentPage={this.state.currentPage} changePage={this.changePage} listingsPerPage={10}/><Apartments listings={this.state.listings} /></div>) }
+            <div className={this.state.isFetching ? ' apartments col-md-7 col-sm-12 loading' : 'apartments col-md-7 col-sm-12'}>
+              {this.state.noResults ? <h2>No Results Found</h2> : (<div><Apartments listings={this.state.listings} /><Pagination listingsCount={this.state.listingsCount} currentPage={this.state.currentPage} changePage={this.changePage} listingsPerPage={10}/></div>) }
             </div>
           </div>
     );

@@ -4,7 +4,6 @@ import {default as airbnbAsync} from '../sources/airbnbAsync';
 import logger from 'redux-logger';
 import {default as mapActions} from '../actions/mapActions';
 import thunk from 'redux-thunk';
-let mapStore;
 
 let initialState = {
 	listings: [],
@@ -16,7 +15,7 @@ let initialState = {
       key: 'Taiwan',
       defaultAnimation: 2
     }],
-	bounds: new google.maps.LatLngBounds({lat: 34.3373061, lng: -118.6681759}, {lat: 33.7036917, lng: -118.1552891}),
+	bounds: new google.maps.LatLngBounds({lat: 33.7036917, lng: -118.6681759}, {lat: 34.3373061, lng: -118.1552891}),
 	value: "",
 	isFetching: false,
 	highlightNumber: null,

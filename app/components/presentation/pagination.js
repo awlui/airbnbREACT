@@ -23,7 +23,6 @@ export default ({listingsCount, currentPage, changePage, listingsPerPage}) => {
 			arr[1] = "..."
 			arr[0] = 1;
 		}
-		console.log(arr)
 	} else if (currentPage === 3 || ((numberOfPages - currentPage) === 2)) {
 		if (currentPage === 3) {
 			arr = _.range(1,7);
@@ -34,7 +33,6 @@ export default ({listingsCount, currentPage, changePage, listingsPerPage}) => {
 			arr[1] = "...";
 			arr[0] = 1;
 		}
-		console.log(arr);
 	} else if (currentPage === 4 || ((numberOfPages - currentPage) === 3)) {
 		if (currentPage === 4) {
 			arr = _.range(1,8);
@@ -45,7 +43,6 @@ export default ({listingsCount, currentPage, changePage, listingsPerPage}) => {
 			arr[1] = "...";
 			arr[0] = 1;
 		}
-		console.log(arr)
 	} else if (currentPage >= 5 || ((numberOfPages - currentPage) >= 4)) {
 		arr = _.range(1,8);
 		arr[1] = "...";
@@ -55,11 +52,10 @@ export default ({listingsCount, currentPage, changePage, listingsPerPage}) => {
 		arr[4] = currentPage + 1;
 		arr[0] = 1;
 		arr[6] = numberOfPages;
-		console.log(arr);
 	}
 	return (
 		<ul className="paginationBar">
-			{arr.map((value) => (<li className={(parseInt(value) === currentPage) ? "currentPage" : ""}>{(value === "...") ? value : <a onClick={() => changePage(parseInt(value, 10))}>{value}</a>}</li>))}
+			{arr.map((value) => (<li className={(parseInt(value) === currentPage) ? "currentPage" : ""}>{(value === "...") ? value : <a href="#" onClick={() => changePage(parseInt(value, 10))}>{value}</a>}</li>))}
 		</ul>
 		)
 }

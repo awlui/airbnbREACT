@@ -1,6 +1,5 @@
 import {default as airbnbAsync} from '../sources/airbnbAsync';
 import {default as constants} from '../actions/constants';
-let mapActions;
 export default {
 	getBySearch(location, offset, limit, bounds={}) {
 		return (dispatch) => {

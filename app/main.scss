@@ -1,6 +1,7 @@
 $bootstrap-sass-asset-helper: true;
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
+$airbnbTheme: #fd5c63;
+$airbnbTheme2: #00B25E;
 html, body {
   height: 100%;
   margin: 0;
@@ -28,7 +29,7 @@ body {
   height: -o-calc(100% - 100px);
   /* Standard */
   height: calc(100% - 100px);
-  width: 50%;
+  width: 41.666%;
 }
 .mapContainer {
   @media (max-width: $screen-md) {
@@ -44,6 +45,10 @@ img {
 .navbar {
   z-index: 950;
   height: 100px;
+  color: $airbnbTheme;
+  .navbar-brand {
+    color: inherit;
+  }
 
 }
 
@@ -51,7 +56,7 @@ img {
   padding: 40px 20px;
 }
 
-.my-gallery-class {
+.apartments-mosaic {
   @media (max-width: $screen-md) {
     & div {
       width: 100%;
@@ -62,10 +67,11 @@ img {
 }
 
 .info {
-  height: 50px;
+  height: 55px;
   width: 70px;
   padding: 0;
-  font-size: 1.2em;
+  font-size: 1.5em;
+  font-weight: bold;
   z-index: 200;
   overflow: hidden;
   background-color: transparent;
@@ -77,7 +83,8 @@ img {
     position: relative;
     top: 10px;
     width: 100%;
-    height: 30px;
+    height: 35px;
+    line-height: 1.5em;
     padding: 5px;
     margin: 0;
     z-index: 1;
@@ -86,7 +93,7 @@ img {
     content: "";
     position: absolute;
     left: 50%;
-    top: 30px;
+    top: 35px;
     padding: 0;
     margin: 0;
     margin-left: -5px;
@@ -102,12 +109,12 @@ img {
 }
 
 .selected div.listingPrice {
-  background-color: blue;
+  background-color: $airbnbTheme2;
   color: white;
 }
 
 .selected div.listingPrice::after {
-  border-color: blue transparent transparent transparent;
+  border-color: $airbnbTheme2 transparent transparent transparent;
 
 }
 
@@ -123,6 +130,13 @@ img {
   img {
     max-height: 200px;
     z-index: 1000;
+  }
+  ul {
+    display: inline;
+    padding-left: 5px;
+  }
+  p:nth-of-type(2) {
+    display: inline;
   }
 }
 .googleSearch {
@@ -151,11 +165,26 @@ img {
 }
 
 .loading {
-  opacity: 0.5;
+  .apartments_mosaic {
+    opacity: 0.5;
+  }
+  ul.paginationBar {
+    display: none;
+  }
 }
-
-.paginationBar {
+.stars {
+  margin: 0;
+  padding: 0;
   list-style-type: none;
+  li {
+    display: inline-block;
+    color: $airbnbTheme;
+  }
+}
+.paginationBar {
+  margin-top: 40px;
+  list-style-type: none;
+  padding: 0;
   display: inline-block;
   text-align: center;
   width: 100%;
@@ -167,16 +196,20 @@ img {
     line-height: 2em;
     text-align: center;
     border-radius: 50%;
-    color: blue;
     display: inline-block;
     margin: 0 25px;
-    font-size: 1.2em;
+    font-size: 1em;
+    @media (max-width: $screen-sm) {
+      margin: 0 10px;
+    }
     a {
       cursor: pointer;
+      color: $airbnbTheme;
+
     }
   }
   .currentPage {
-    background-color: blue;
+    background-color: $airbnbTheme;
     a {
       color: white;
       outline: inherit;
@@ -184,6 +217,16 @@ img {
   }
 }
 
+.apartments-mosaic .listing {
+  margin-bottom: 20px;
+  p {
+    margin: 0;
+  }
+}
+.geosuggest__input {
+  width: 50%;
+  color: black;
+}
 //bootstrap collapse breakpoint override
 @media (max-width: $screen-md) {
     .navbar-header {

@@ -50,7 +50,7 @@ export default class Application extends Component {
         <Navbar fluid className="navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
-              <Link to="/">React Google Maps</Link>
+              <Link to="/">Airbnb React</Link>
             </Navbar.Brand>
           </Navbar.Header>
             <Geosuggest 
