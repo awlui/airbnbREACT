@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import {default as mapActions} from '../actions/mapActions';
 import thunk from 'redux-thunk';
 
-let initialState = {
+const initialState = {
 	listings: [],
     markers: [{
       position: {
@@ -55,7 +55,8 @@ const reducer = function(state=initialState, action) {
 		  		neighborhood: unwrappedListing.neighborhood,
 		  		person_capacity: unwrappedListing.person_capacity,
 		  		picture_url: unwrappedListing.picture_url,
-		  		star_rating: unwrappedListing.star_rating
+		  		star_rating: unwrappedListing.star_rating,
+		  		id: unwrappedListing.id
 
 
 		  	};

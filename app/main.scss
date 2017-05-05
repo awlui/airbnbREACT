@@ -10,6 +10,7 @@ html, body {
 body {
   padding-top: 100px;
   font-size: 16px;
+  font-family: 'Karla', sans-serif;
 }
 #root {
   height: 100%;
@@ -39,7 +40,6 @@ body {
 img {
   text-align: center;
   width: 100%;
-  max-width: 500px;
 }
 
 .navbar {
@@ -48,6 +48,8 @@ img {
   color: $airbnbTheme;
   .navbar-brand {
     color: inherit;
+    font-family: 'Lobster', cursive; 
+    font-size: 2em;
   }
 
 }
@@ -155,6 +157,15 @@ img {
 
 .navbar-collapse {
   background-color: rgb(248,248,248);
+  @media (max-width: $screen-md) {
+    text-align: center;
+  }
+  ul {
+    float: right;
+  }
+  a {
+    color: $airbnbTheme2;
+  }
 }
 
 .geosuggest {
@@ -165,6 +176,9 @@ img {
 }
 
 .loading {
+  &.room {
+    display: none;
+  }
   .apartments_mosaic {
     opacity: 0.5;
   }
@@ -226,6 +240,20 @@ img {
 .geosuggest__input {
   width: 50%;
   color: black;
+}
+.room {
+  height: 100%;
+  position: relative;
+}
+.room .jumbotron {
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  height: 70%;
+  text-align: center;
+  background-position: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 //bootstrap collapse breakpoint override
 @media (max-width: $screen-md) {

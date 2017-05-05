@@ -6,8 +6,8 @@ export default {
 		return (dispatch) => {
 			airbnbAsync.getListingById(id).then(res => {
 				dispatch({type: constants.FETCH_SUCCESS, data: res.data});
-			});
-			dispatch({type: constants.FETCH})
+			}).catch(err => dispatch({type: constants.FETCH_FAILURE}));
+			dispatch({type: constants.FETCHING_LISTING});
 		}
 	}
 }

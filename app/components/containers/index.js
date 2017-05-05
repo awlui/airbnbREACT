@@ -8,7 +8,6 @@ import {
 import {
   Link,
 } from "react-router-dom";
-
 import {
   Navbar,
   Nav,
@@ -62,7 +61,7 @@ export default class Application extends Component {
             />
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Nav>
+            <Nav className="tabs">
               <NavItem>
                 <Link to="/">Page One</Link>
               </NavItem>
@@ -70,6 +69,7 @@ export default class Application extends Component {
                 <Link to="/next">Page Two</Link>
               </NavItem>
               <NavItem>
+                <Link to="/listing">Listing</Link>
               </NavItem>
             </Nav>
           </Navbar.Collapse>

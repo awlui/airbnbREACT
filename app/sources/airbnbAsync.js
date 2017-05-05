@@ -30,7 +30,7 @@ export default {
 		return axios.get(url);
 	},
 	getListingById(id) {
-		let url="/v2/listings/${id}?client_id=3092nxybyb0otqw18e8nh5nty&_format=v1_legacy_for_p3";
+		let url=`/v2/listings/${id}?client_id=3092nxybyb0otqw18e8nh5nty&_format=v1_legacy_for_p3`;
 		return axios.get(url);
 	} 
 }

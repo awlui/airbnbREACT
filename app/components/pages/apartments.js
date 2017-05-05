@@ -2,6 +2,14 @@ import React from 'react';
 import Masonry from 'react-masonry-component';
 import mapStore from '../../stores/mapStore';
 import Stars from '../presentation/stars';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect
+
+} from "react-router-dom";
 let masonryOptions = {
     transitionDuration: '0.6s',
     columnWidth: 200
@@ -11,6 +19,11 @@ export default class Apartments extends React.Component {
 	onHover = (evt, index) => {
 		mapStore.dispatch({type: 'CHANGE_HIGHLIGHT', index});
 	}
+	onClick = (id) => {
+		console.log('hi', id);
+		console.log(this.props.history);
+		this.props.history.push(`listing?id=${id}`)
+	}
 	render() {
 		return (
 			<Masonry
@@ -18,7 +31,7 @@ export default class Apartments extends React.Component {
 				elementType={'div'}
 				>
 				{this.props.listings.map((listing, index) => (
-				<div onMouseOver={(e) => {this.onHover(e, index)}} className="listing col-lg-6 col-md-6 col-sm-12">
+				<div onClick={(e) => this.onClick(listing.listing.id)} onMouseOver={(e) => {this.onHover(e, index)}} className="listing col-lg-6 col-md-6 col-sm-12">
 					<img src={listing.listing.picture_url} />
 					<p>{listing.listing.name}</p>
 					<p>{listing.pricing.rate.amount_formatted}</p>

@@ -5821,7 +5821,8 @@ html, body {
 
 body {
   padding-top: 100px;
-  font-size: 16px; }
+  font-size: 16px;
+  font-family: 'Karla', sans-serif; }
 
 #root {
   height: 100%; }
@@ -5849,15 +5850,16 @@ body {
 
 img {
   text-align: center;
-  width: 100%;
-  max-width: 500px; }
+  width: 100%; }
 
 .navbar {
   z-index: 950;
   height: 100px;
   color: #fd5c63; }
   .navbar .navbar-brand {
-    color: inherit; }
+    color: inherit;
+    font-family: 'Lobster', cursive;
+    font-size: 2em; }
 
 .apartments {
   padding: 40px 20px; }
@@ -5941,12 +5943,22 @@ img {
 
 .navbar-collapse {
   background-color: #f8f8f8; }
+  @media (max-width: 992px) {
+    .navbar-collapse {
+      text-align: center; } }
+  .navbar-collapse ul {
+    float: right; }
+  .navbar-collapse a {
+    color: #00B25E; }
 
 .geosuggest {
   display: none; }
   @media (max-width: 992px) {
     .geosuggest {
       display: block; } }
+
+.loading.room {
+  display: none; }
 
 .loading .apartments_mosaic {
   opacity: 0.5; }
@@ -6000,6 +6012,20 @@ img {
 .geosuggest__input {
   width: 50%;
   color: black; }
+
+.room {
+  height: 100%;
+  position: relative; }
+
+.room .jumbotron {
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  height: 70%;
+  text-align: center;
+  background-position: 50%;
+  background-size: cover;
+  background-repeat: no-repeat; }
 
 @media (max-width: 992px) {
   .navbar-header {

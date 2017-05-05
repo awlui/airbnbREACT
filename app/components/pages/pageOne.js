@@ -217,7 +217,7 @@ export default class pageOne extends React.Component {
               />
             </div>
             <div className={this.state.isFetching ? ' apartments col-md-7 col-sm-12 loading' : 'apartments col-md-7 col-sm-12'}>
-              {this.state.noResults ? <h2>No Results Found</h2> : (<div><Apartments listings={this.state.listings} /><Pagination listingsCount={this.state.listingsCount} currentPage={this.state.currentPage} changePage={this.changePage} listingsPerPage={10}/></div>) }
+              {this.state.noResults ? <h2>No Results Found</h2> : (<div><Apartments history={this.props.history} listings={this.state.listings} /><Pagination listingsCount={this.state.listingsCount} currentPage={this.state.currentPage} changePage={this.changePage} listingsPerPage={10}/></div>) }
             </div>
           </div>
     );
