@@ -17,7 +17,7 @@ import {
   MenuItem,
   Toggle
 } from "react-bootstrap";
-
+import constants from '../../actions/constants';
 import Geosuggest from 'react-geosuggest';
 import {
   LinkContainer,
@@ -36,7 +36,8 @@ export default class Application extends Component {
     mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
   }
   onSuggestSelect = (suggest) => {
-    mapStore.dispatch(mapActions.getBySearch(suggest.gmaps.formatted_address, 0, 10, suggest.gmaps.geometry.viewport))
+    mapStore.dispatch(mapActions.getBySearch(suggest.gmaps.formatted_address, 0, 10, suggest.gmaps.geometry.viewport));
+    mapStore.dispatch({type: constants.CHANGE_PAGE, page: 1});
   }
   render() {
     return (
