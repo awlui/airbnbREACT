@@ -4,7 +4,7 @@ import {default as airbnbAsync} from '../sources/airbnbAsync';
 import logger from 'redux-logger';
 import {default as mapActions} from '../actions/mapActions';
 import thunk from 'redux-thunk';
-
+import moment from 'moment';
 const initialState = {
 	listings: [],
     markers: [{
@@ -28,7 +28,10 @@ const initialState = {
 	},
 	noResults: false,
 	currentPage: 1,
-	listingCount: 0
+	listingCount: 0,
+	startDate: NaN,
+	endDate: NaN,
+	currentRoute: "homepage"
 
 
 
@@ -38,7 +41,7 @@ const reducer = function(state=initialState, action) {
 	switch (action.type) {
 		case constants.FETCHING_LOCATIONS:
 		  return {
-		  	...state, isFetching: true
+		  	...state, isFetching: true, startDate: action.startDate, endDate: action.endDate
 		  }
 		case constants.FETCH_SUCCESS:
 		  let listings = [];
@@ -87,6 +90,10 @@ const reducer = function(state=initialState, action) {
 		case constants.CHANGE_PAGE:
 			return {
 				...state, currentPage: action.page
+			}
+		case constants.CHANGE_ROUTE:
+			return {
+				...state, currentRoute: action.page
 			}
 		case constants.FETCH_FAILURE:
 		default:

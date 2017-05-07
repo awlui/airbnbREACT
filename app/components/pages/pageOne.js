@@ -12,9 +12,9 @@ import {
 } from "react-google-maps";
 import InfoBox from "../../../node_modules/react-google-maps/lib/addons/InfoBox";
 import SearchBox from "../../../node_modules/react-google-maps/lib/places/SearchBox";
-import mapStore from '../../stores/mapStore.js';
-import {default as airbnbAsync} from '../../sources/airbnbAsync';
-import {default as mapActions} from '../../actions/mapActions';
+import mapStore from '../../stores/mapStore';
+import airbnbAsync from '../../sources/airbnbAsync';
+import mapActions from '../../actions/mapActions';
 import {default as constants} from '../../actions/constants';
 import Apartments from './apartments';
 import Pagination from '../presentation/pagination';
@@ -84,11 +84,14 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
   {props.listings.map((listing, index) => (
     <Marker 
       position={listing.listing.position}
+      key={index}
       >
         {(index === props.currentInfoBox) && 
-          <InfoBox options={{ closeBoxURL: ``, alignBottom: false, pixelOffset: new google.maps.Size(-150, -280),  boxClass: "listingContent" }} 
+          <InfoBox onDomReady={() => { document.getElementById('activeInfoBox').addEventListener('click', function() {
+            props.onClick(listing.listing.id);
+          })}} options={{ closeBoxURL: ``, alignBottom: false, pixelOffset: new google.maps.Size(-150, -280), enableEventPropagation: false,  boxClass: "listingInfoBox" }} 
           key={index}>
-          <div>
+          <div id="activeInfoBox">
           <img src={listing.listing.picture_url} />
           <p>{listing.listing.name}</p>
           <p>{listing.pricing.rate.amount_formatted}</p>
@@ -101,7 +104,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
     <InfoBox 
       position={listing.listing.position}
       key={index}
-      options={{ closeBoxURL: ``, defaultAnimation: 2, enableEventPropagation: true, alignBottom: true, pixelOffset: new google.maps.Size(-35, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
+      options={{ closeBoxURL: ``, enableEventPropagation: true, alignBottom: true, pixelOffset: new google.maps.Size(-35, -10), boxClass: (props.highlightNumber === index ? "selected" : null)}}
       >
       <div className="info" >
       <div onClick={(e) => {props.onInfoBoxClick(e, index)}} className="listingPrice">{listing.pricing.rate.amount_formatted}</div>
@@ -154,6 +157,7 @@ export default class pageOne extends React.Component {
     mapStore.dispatch({type: constants.CHANGE_HIGHLIGHT, index});
   }
   bootstrap = () => {
+    mapStore.dispatch({type: constants.CHANGE_ROUTE, page: 'homepage'});
       let parsed = queryString.parse(this.props.location.search);
       let bounds;
       if (!_.isEmpty(parsed)) {
@@ -172,20 +176,29 @@ export default class pageOne extends React.Component {
   }
   handlePlacesChanged = () => {
     const places = this._searchBox.getPlaces();
-    // Add a marker for each place returned from search bar
     const markers = places.map(place => ({
       position: place.geometry.location,
     }));
-    // Set markers; set map center to first search result
     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
+    let queryString;
     this._mapComponent.fitBounds(places[0].geometry.viewport)
     mapStore.dispatch(mapActions.getBySearch(places[0].name, 0, 10, places[0].geometry.viewport));
     mapStore.dispatch({type: constants.CHANGE_PAGE, page: 1});
-    this.props.history.push(`search?neLat=${places[0].geometry.viewport.getNorthEast().lat()}&neLng=${places[0].geometry.viewport.getNorthEast().lng()}&swLat=${places[0].geometry.viewport.getSouthWest().lat()}&swLng=${places[0].geometry.viewport.getSouthWest().lng()}`);
+    queryString = `search?neLat=${places[0].geometry.viewport.getNorthEast().lat()}&neLng=${places[0].geometry.viewport.getNorthEast().lng()}&swLat=${places[0].geometry.viewport.getSouthWest().lat()}&swLng=${places[0].geometry.viewport.getSouthWest().lng()}`
+    if (this.state.startDate) {
+      queryString += `&checkin=${this.state.startDate}`;
+    }
+    if (this.state.endDate) {
+      queryString += `&checkout=${this.state.endDate}`;
+    }
+    this.props.history.push(queryString);
   }
   changePage = (page) => {
     mapStore.dispatch({type: constants.CHANGE_PAGE, page});
     mapStore.dispatch(mapActions.getByBounds(this.state.bounds, (page-1)*10, 10));
+  }
+  onClick = (id) => {
+    this.props.history.push(`listing?id=${id}`)
   }
   render() {
     this.state = mapStore.getState();
@@ -214,6 +227,7 @@ export default class pageOne extends React.Component {
                 onMapClick={this.handleMapClick}
                 center={this.state.mapCenter}
                 onPlacesChanged={this.handlePlacesChanged}
+                onClick={this.onClick}
               />
             </div>
             <div className={this.state.isFetching ? ' apartments col-md-7 col-sm-12 loading' : 'apartments col-md-7 col-sm-12'}>

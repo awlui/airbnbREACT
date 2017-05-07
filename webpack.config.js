@@ -77,9 +77,7 @@ if (TARGET === 'start' || !TARGET) {
 if (TARGET === 'build' || TARGET === 'stats') {
 	module.exports = merge(common, {
 		entry: {
-			vendor: Object.keys(pkg.dependencies).filter(function(v) {
-				return v !== 'alt-utils';
-			}),
+			vendor: Object.keys(pkg.dependencies),
 			style: PATHS.style
 		},
 	output: {
@@ -111,7 +109,7 @@ if (TARGET === 'build' || TARGET === 'stats') {
 			new CleanPlugin([PATHS.build], {
 				verbose: false
 			}),
-			new ExtractTextPlugin('[name].[chunkhash].css')
+			new ExtractTextPlugin('[name].[hash].css')
 		]
 	});
 }

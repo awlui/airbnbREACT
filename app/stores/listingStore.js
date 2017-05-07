@@ -8,8 +8,11 @@ import thunk from 'redux-thunk';
 const initialState = {
 	data: null,
 	id: null,
+	reviewData: null,
 	isFetching: false,
-	error: false
+	error: false,
+	reviewError: false,
+	isFetchingReviews: false,
 }
 
 const middleware = applyMiddleware(thunk, logger);
@@ -17,12 +20,10 @@ const middleware = applyMiddleware(thunk, logger);
 const reducer = function(state=initialState, action) {
 	switch(action.type) {
 		case constants.FETCHING_LISTING:
-
 			return {
 				...state, isFetching: true, error: false, data: null
 			};
 		case constants.FETCH_SUCCESS:
-		console.log(action.data, "DATA");
 			return {
 				...state, isFetching: false, data: action.data.listing, id: action.data.listing.id, error: false
 			};
@@ -30,7 +31,11 @@ const reducer = function(state=initialState, action) {
 			return {
 				...state, error: true, isFetching: false
 			}
-		default:;
+		case constants.FETCH_REVIEWS:
+			return {
+				...state, isFetchingReviews
+			}
+		default:
 			return state;
 
 	}

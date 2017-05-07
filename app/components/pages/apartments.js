@@ -20,8 +20,6 @@ export default class Apartments extends React.Component {
 		mapStore.dispatch({type: 'CHANGE_HIGHLIGHT', index});
 	}
 	onClick = (id) => {
-		console.log('hi', id);
-		console.log(this.props.history);
 		this.props.history.push(`listing?id=${id}`)
 	}
 	render() {
@@ -31,7 +29,7 @@ export default class Apartments extends React.Component {
 				elementType={'div'}
 				>
 				{this.props.listings.map((listing, index) => (
-				<div onClick={(e) => this.onClick(listing.listing.id)} onMouseOver={(e) => {this.onHover(e, index)}} className="listing col-lg-6 col-md-6 col-sm-12">
+				<div key={index} onClick={(e) => this.onClick(listing.listing.id)} onMouseOver={(e) => {this.onHover(e, index)}} className="listing col-lg-6 col-md-6 col-sm-12">
 					<img src={listing.listing.picture_url} />
 					<p>{listing.listing.name}</p>
 					<p>{listing.pricing.rate.amount_formatted}</p>

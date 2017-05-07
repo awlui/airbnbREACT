@@ -25,7 +25,7 @@ export default class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Application />
+          <Route path="/" component={Application} />
           <div style={{height: `100%`, width: '100%'}} >
           <Switch>
             <Route exact path="/" component={pageOne} />
