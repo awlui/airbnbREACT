@@ -34,6 +34,7 @@ const INPUT_STYLE = {
   outline: `none`,
   textOverflow: `ellipses`,
 };
+import $ from 'jquery';
 function padBounds(map, npad, spad, epad, wpad) {
     var SW = map.getBounds().getSouthWest();
     var NE = map.getBounds().getNorthEast();
