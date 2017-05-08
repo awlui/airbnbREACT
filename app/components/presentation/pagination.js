@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-export default ({listingsCount, currentPage, changePage, listingsPerPage}) => {
+export default ({listingsCount, currentPage, changePage, listingsPerPage, elId=""}) => {
 	let numberOfPages;
 	let arr = []
 	if (listingsCount/listingsPerPage >= 17) {
@@ -55,7 +55,7 @@ export default ({listingsCount, currentPage, changePage, listingsPerPage}) => {
 	}
 	return (
 		<ul className="paginationBar">
-			{arr.map((value) => (<li className={(parseInt(value) === currentPage) ? "currentPage" : ""}>{(value === "...") ? value : <a href="#" onClick={() => changePage(parseInt(value, 10))}>{value}</a>}</li>))}
+			{arr.map((value) => (<li className={(parseInt(value) === currentPage) ? "currentPage" : ""}>{(value === "...") ? value : <a href={`#${elId}`} onClick={() => changePage(parseInt(value, 10))}>{value}</a>}</li>))}
 		</ul>
 		)
 }

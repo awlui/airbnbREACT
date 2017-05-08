@@ -389,6 +389,25 @@ img {
     }
     .reviews {
       border-bottom: 1px solid rgb(150,150,150);
+      ul {
+        list-style-type: none;
+        padding: 0;
+        li {
+          border-bottom: 1px solid rgb(200,200,200);
+          margin: 20px 0;
+          &::after {
+              clear: both;
+              content: '';
+              display: table;
+              
+            }
+          img {
+            margin: 0;
+            margin-bottom: 20px;
+            min-width: 50px;
+          }
+        }
+      }
     }
     .neighborhood {
       border-bottom: 1px solid rgb(150,150,150);

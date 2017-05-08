@@ -102,7 +102,7 @@ export default class Listing extends React.Component {
 					<ListingNavigation />
 					<BookingSideBar />
 					<Overview listing={this.state.data} />
-					<Reviews listing={this.state.data} />
+					<Reviews isFetchingReviews={this.state.isFetchingReviews} reviewsCount={this.state.data.reviews_count} id={this.state.id} currentPage={this.state.currentPage} reviewData={this.state.reviewData}/>
 					<div className="neighborhood col-md-8">
 						  <h3>The neighborhood</h3>
 				          <GoogleMapContainer

@@ -6399,6 +6399,20 @@ img {
         border-bottom: 1px solid #969696; }
     .room div.wrapper .reviews {
       border-bottom: 1px solid #969696; }
+      .room div.wrapper .reviews ul {
+        list-style-type: none;
+        padding: 0; }
+        .room div.wrapper .reviews ul li {
+          border-bottom: 1px solid #c8c8c8;
+          margin: 20px 0; }
+          .room div.wrapper .reviews ul li::after {
+            clear: both;
+            content: '';
+            display: table; }
+          .room div.wrapper .reviews ul li img {
+            margin: 0;
+            margin-bottom: 20px;
+            min-width: 50px; }
     .room div.wrapper .neighborhood {
       border-bottom: 1px solid #969696; }
 

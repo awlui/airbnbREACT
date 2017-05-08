@@ -45,8 +45,8 @@ export default {
 		let url=`/v2/listings/${id}?client_id=3092nxybyb0otqw18e8nh5nty&_format=v1_legacy_for_p3`;
 		return axios.get(url);
 	},
-	getReviewsById(id, offset, limit) {
-		let url = `v2/reviews?client_id=3092nxybyb0otqw18e8nh5nty&listing_id=${id}`;
+	getReviewsById(id, offset=0, limit=10) {
+		let url = `/v2/reviews?client_id=3092nxybyb0otqw18e8nh5nty&_format=for_mobile_client&role=all&listing_id=${id}`;
 		if (offset) {
 			url += `&_offset=${offset}`;
 		}
