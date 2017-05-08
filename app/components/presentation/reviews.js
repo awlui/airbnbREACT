@@ -39,7 +39,7 @@ export default class Reviews extends React.Component {
 						</li>)
 					) : null}
 				</ul>
-				<Pagination listingsCount={this.props.reviewsCount} currentPage={this.props.currentPage} changePage={this.changePage} listingsPerPage={10} elId={"#reviews"}/>
+				<Pagination listingsCount={this.props.reviewsCount} currentPage={this.props.currentPage} changePage={this.changePage} listingsPerPage={10} elId={"reviews"}/>
 			</div>
 		)		
 	}

@@ -6328,6 +6328,24 @@ img {
     .room div.wrapper .listingNavBar {
       height: 50px;
       box-sizing: inherit; }
+      @media (min-width: 992px) {
+        .room div.wrapper .listingNavBar > div {
+          position: relative; }
+          .room div.wrapper .listingNavBar > div.navSnap {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            background-color: white; }
+            .room div.wrapper .listingNavBar > div.navSnap.container-fluid {
+              height: 51px;
+              border-bottom: blue 1px solid;
+              left: 0;
+              right: 0;
+              z-index: 999;
+              border-bottom: 1px solid #969696; }
+            .room div.wrapper .listingNavBar > div.navSnap ul {
+              margin-bottom: 0;
+              border-bottom: none; } }
       @media (max-width: 768px) {
         .room div.wrapper .listingNavBar {
           display: none; } }
@@ -6346,7 +6364,7 @@ img {
           .room div.wrapper .listingNavBar ul li:first-of-type {
             padding-left: 0; }
           .room div.wrapper .listingNavBar ul li:hover {
-            border-bottom: 1px solid #00B25E;
+            border-bottom: 2px solid #00B25E;
             color: rgba(0, 0, 0, 0.8); }
           .room div.wrapper .listingNavBar ul li a {
             font-size: inherit;
@@ -6365,7 +6383,11 @@ img {
           margin-top: -50px; }
           .room div.wrapper .bookingSideBar > div {
             width: 300px;
-            position: fixed; }
+            position: relative; }
+            .room div.wrapper .bookingSideBar > div.navSnap {
+              position: fixed;
+              top: 0;
+              z-index: 1000; }
             .room div.wrapper .bookingSideBar > div p:nth-of-type(1) {
               height: 50px;
               line-height: 50px;

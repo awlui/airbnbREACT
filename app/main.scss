@@ -290,6 +290,29 @@ img {
     .listingNavBar {
       height: 50px;
       box-sizing: inherit;
+      @media (min-width: $screen-md) {
+        & > div {
+          position: relative;
+          &.navSnap {
+          position: fixed;
+          top: 0;
+          z-index: 1000;
+          background-color: white;
+          &.container-fluid {
+            height: 51px;
+            border-bottom: blue 1px solid;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            border-bottom: 1px solid rgb(150,150,150);
+          }
+          ul {
+            margin-bottom: 0;
+            border-bottom: none;
+          }
+        }
+        }
+      }
       @media (max-width: $screen-sm) {
         display: none;
       }
@@ -309,7 +332,7 @@ img {
             padding-left: 0;
           }
           &:hover {
-            border-bottom: 1px solid $airbnbTheme2;
+            border-bottom: 2px solid $airbnbTheme2;
             color: rgba(0,0,0,0.8);
           }
           a {
@@ -334,7 +357,12 @@ img {
         margin-top: -50px;
         & > div {
           width: 300px;
-          position: fixed;
+          position: relative;
+          &.navSnap {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+          }
           p:nth-of-type(1) {
             height: 50px;
             line-height: 50px;

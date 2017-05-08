@@ -34,10 +34,10 @@ export default {
 			url += `&_limit=${limit}`;
 		}
 		if (startDate) {
-			url += `&checkin=${startDate.format('YYYY','MM','DD')}`;
+			url += `&checkin=${startDate.format('YYYY-MM-DD')}`;
 		}
 		if (endDate) {
-			url += `&checkout=${endDate.format('YYYY','MM','DD')}`;
+			url += `&checkout=${endDate.format('YYYY-MM-DD')}`;
 		}
 		return axios.get(url);
 	},

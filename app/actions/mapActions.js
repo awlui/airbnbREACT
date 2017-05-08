@@ -11,6 +11,7 @@ export default {
 		}
 	},
 	getByBounds(location, offset, limit, startDate=mapStore.getState().startDate, endDate=mapStore.getState().endDate) {
+		console.log(startDate, endDate, "DATE HERE")
 		return (dispatch) => {
 			let bounds = {
 				"neLat": location.getNorthEast().lat(),

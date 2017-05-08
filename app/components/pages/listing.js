@@ -8,6 +8,8 @@ import listingStore from '../../stores/listingStore';
 import constants from '../../actions/constants';
 import listingActions from '../../actions/listingActions';
 import mapStore from '../..//stores/mapStore';
+import Waypoint from 'react-waypoint';
+import $ from 'jquery';
 import {
   BrowserRouter as Router,
   Route,
@@ -98,9 +100,19 @@ export default class Listing extends React.Component {
 		return (
 			<div className={this.state.isFetching ? "room loading" : "room"}>
 				<Jumbotron poster={this.state.data.photos[0].xx_large} />
+				<Waypoint onLeave={() => {
+					$('.listingNavBar > div').addClass('navSnap');
+				}} onEnter={() => {
+					$('.listingNavBar > div').removeClass('navSnap');
+				}}/>
+				<Waypoint topOffset={50} onLeave={() => {
+					$('.bookingSideBar > div').addClass('navSnap');
+				}} onEnter={() => {
+					$('.bookingSideBar > div').removeClass('navSnap');
+				}}/>	
 				<div className="wrapper">
 					<ListingNavigation />
-					<BookingSideBar />
+					<BookingSideBar price={this.state.data.price_formatted}/>
 					<Overview listing={this.state.data} />
 					<Reviews isFetchingReviews={this.state.isFetchingReviews} reviewsCount={this.state.data.reviews_count} id={this.state.id} currentPage={this.state.currentPage} reviewData={this.state.reviewData}/>
 					<div className="neighborhood col-md-8">

@@ -44,6 +44,7 @@ export default class Application extends Component {
   }
   handleApply = (e, picker) => {
     let queryString, bounds;
+    console.log(picker, 'picker');
     if (isNaN(moment(picker.startDate)) || (isNaN(moment(picker.endDate)))) {
       return;
     }
@@ -52,6 +53,7 @@ export default class Application extends Component {
     queryString += `&checkin=${moment(picker.startDate).format('YYYY-MM-DD')}`;
     queryString += `&checkout=${moment(picker.endDate).format('YYYY-MM-DD')}`;
     this.props.history.push(queryString);
+    console.log(moment(picker.startDate), "startDate");
     mapStore.dispatch(mapActions.getByBounds(mapStore.getState().bounds, 0, 10, moment(picker.startDate), moment(picker.endDate)));
   }
   onHomePage = () => {
@@ -65,8 +67,6 @@ export default class Application extends Component {
           skipSuggest={() => true}
         />
         <DatetimeRangePicker
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
           onApply={(e, picker) => { this.handleApply(e, picker)}}
           minDate={moment(new Date())}
           className="dateRange"
