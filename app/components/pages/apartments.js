@@ -2,6 +2,7 @@ import React from 'react';
 import Masonry from 'react-masonry-component';
 import mapStore from '../../stores/mapStore';
 import Stars from '../presentation/stars';
+import $ from 'jquery';
 import {
   BrowserRouter as Router,
   Route,
