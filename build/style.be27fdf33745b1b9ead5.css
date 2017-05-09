@@ -1529,13 +1529,13 @@ pre {
   .container-fluid:after {
     clear: both; }
 
-.row, .room div.wrapper .overview .summary > div {
+.row, .room div.wrapper #overview .summary > div {
   margin-left: -15px;
   margin-right: -15px; }
-  .row:before, .room div.wrapper .overview .summary > div:before, .row:after, .room div.wrapper .overview .summary > div:after {
+  .row:before, .room div.wrapper #overview .summary > div:before, .row:after, .room div.wrapper #overview .summary > div:after {
     content: " ";
     display: table; }
-  .row:after, .room div.wrapper .overview .summary > div:after {
+  .row:after, .room div.wrapper #overview .summary > div:after {
     clear: both; }
 
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
@@ -6140,7 +6140,11 @@ img {
     font-size: 2em; }
 
 .apartments {
-  padding: 40px 20px; }
+  padding: 40px 20px;
+  height: 100%;
+  position: relative; }
+  .apartments > div {
+    margin-bottom: 30px; }
 
 @media (max-width: 992px) {
   .apartments-mosaic div {
@@ -6256,7 +6260,7 @@ img {
     color: #fd5c63; }
 
 .paginationBar {
-  margin-top: 40px;
+  margin: 30px 0;
   list-style-type: none;
   padding: 0;
   display: inline-block;
@@ -6293,6 +6297,10 @@ img {
 @media (max-width: 480px) {
   .apartments-mosaic {
     width: 100%; } }
+
+.apartments-mosaic .stars {
+  display: inline-block;
+  padding-right: 20px; }
 
 .apartments-mosaic .listing {
   margin-bottom: 20px; }
@@ -6331,18 +6339,32 @@ img {
       @media (min-width: 992px) {
         .room div.wrapper .listingNavBar > div {
           position: relative; }
+          .room div.wrapper .listingNavBar > div li.currentSection {
+            border-bottom: 2px solid #00B25E; }
+          .room div.wrapper .listingNavBar > div.container-fluid {
+            display: none; }
           .room div.wrapper .listingNavBar > div.navSnap {
             position: fixed;
             top: 0;
             z-index: 1000;
             background-color: white; }
             .room div.wrapper .listingNavBar > div.navSnap.container-fluid {
+              display: block;
               height: 51px;
               border-bottom: blue 1px solid;
               left: 0;
               right: 0;
               z-index: 999;
               border-bottom: 1px solid #969696; }
+              .room div.wrapper .listingNavBar > div.navSnap.container-fluid h3 {
+                font-family: 'Lobster', cursive;
+                color: #fd5c63;
+                float: left; }
+                .room div.wrapper .listingNavBar > div.navSnap.container-fluid h3 a {
+                  text-decoration: none;
+                  color: inherit; }
+                  .room div.wrapper .listingNavBar > div.navSnap.container-fluid h3 a:visited {
+                    text-decoration: none; }
             .room div.wrapper .listingNavBar > div.navSnap ul {
               margin-bottom: 0;
               border-bottom: none; } }
@@ -6380,9 +6402,12 @@ img {
       @media (min-width: 992px) {
         .room div.wrapper .bookingSideBar {
           position: relative;
-          margin-top: -50px; }
+          margin-top: -50px; } }
+      .room div.wrapper .bookingSideBar > div {
+        border: 1px solid #969696;
+        width: 300px; }
+        @media (min-width: 992px) {
           .room div.wrapper .bookingSideBar > div {
-            width: 300px;
             position: relative; }
             .room div.wrapper .bookingSideBar > div.navSnap {
               position: fixed;
@@ -6395,32 +6420,37 @@ img {
               color: white;
               font-size: 30px;
               padding-left: 20px; } }
-    .room div.wrapper .overview {
-      padding: 20px; }
-      .room div.wrapper .overview > div {
+    .room div.wrapper #overview {
+      padding: 20px;
+      padding-top: 40px;
+      margin-top: -40px; }
+      .room div.wrapper #overview > div {
         border-bottom: 1px solid #969696;
         padding: 20px 0; }
-        .room div.wrapper .overview > div::after {
+        .room div.wrapper #overview > div::after {
           clear: both;
           content: "";
           display: table; }
       @media (max-width: 768px) {
-        .room div.wrapper .overview .hostInfo img {
+        .room div.wrapper #overview .hostInfo img {
           width: 70%;
           margin: 0 auto; } }
       @media (max-width: 480px) {
-        .room div.wrapper .overview .hostInfo img {
+        .room div.wrapper #overview .hostInfo img {
           width: 80%; } }
-      .room div.wrapper .overview .apartmentIcons {
+      .room div.wrapper #overview .apartmentIcons {
         text-align: center; }
-      .room div.wrapper .overview .summary ul {
+      .room div.wrapper #overview .summary ul {
         list-style-type: none; }
-      .room div.wrapper .overview .summary > div {
+      .room div.wrapper #overview .summary > div {
         padding-top: 10px; }
-      .room div.wrapper .overview .summary .theSpace {
+      .room div.wrapper #overview .summary .theSpace {
         border-bottom: 1px solid #969696; }
     .room div.wrapper .reviews {
       border-bottom: 1px solid #969696; }
+      .room div.wrapper .reviews h3 {
+        margin: 0;
+        padding: 30px 0; }
       .room div.wrapper .reviews ul {
         list-style-type: none;
         padding: 0; }
@@ -6435,8 +6465,23 @@ img {
             margin: 0;
             margin-bottom: 20px;
             min-width: 50px; }
-    .room div.wrapper .neighborhood {
-      border-bottom: 1px solid #969696; }
+    .room div.wrapper #neighborhood {
+      margin-top: -40px;
+      padding-top: 40px;
+      border-bottom: 1px solid #969696;
+      margin-bottom: 20px;
+      padding-bottom: 20px; }
+
+#reviews {
+  margin-top: -40px;
+  padding-top: 40px; }
+
+#host {
+  margin-top: -40px;
+  padding-top: 40px;
+  border-bottom: 1px solid #969696; }
+  #host img {
+    margin: 20px 0; }
 
 .geosuggest {
   display: none; }
@@ -6481,6 +6526,14 @@ img {
 .daterangepicker td:hover {
   background-color: #fd5c63;
   color: white; }
+
+.footer {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  bottom: 0;
+  left: 0;
+  right: 0; }
 
 @media (max-width: 992px) {
   .navbar-header {

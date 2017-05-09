@@ -7,15 +7,23 @@ import {
   InfoWindow,
   Circle
 } from "react-google-maps";
-
+import Waypoint from 'react-waypoint';
 
 
 
 
 export default ({listing}) => {
 	return (
-	<div className="overview col-md-8 col-sm-12">
-
+	<div id="overview" className="col-md-8 col-sm-12">
+		<Waypoint topOffset={50} onLeave={(waypoint) => {
+			if (waypoint.currentPosition === "above" && waypoint.previousPosition === "inside") {
+				$('.listingNavBar li:nth-of-type(1)').addClass('currentSection');
+			}
+		}} onEnter={(waypoint)=> {
+			if (waypoint.currentPosition === "inside" && waypoint.previousPosition === "above") {
+				$('.listingNavBar li').removeClass('currentSelection');
+			}
+		}}/>
 		<div className="hostInfo">
 			<div className="col-md-8 col-sm-12">
 			<h2>{listing.name}</h2>

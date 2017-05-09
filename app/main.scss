@@ -68,6 +68,11 @@ img {
 
 .apartments {
   padding: 40px 20px;
+  height: 100%;
+  position: relative;
+  & > div {
+    margin-bottom: 30px;
+  }
 }
 
 .apartments-mosaic {
@@ -198,6 +203,7 @@ img {
     display: none;
   }
 }
+
 .stars {
   margin: 0;
   padding: 0;
@@ -208,7 +214,7 @@ img {
   }
 }
 .paginationBar {
-  margin-top: 40px;
+  margin: 30px 0;
   list-style-type: none;
   padding: 0;
   display: inline-block;
@@ -250,18 +256,22 @@ img {
   @media (max-width: $screen-xs) {
     width: 100%;
   }
-}
-.apartments-mosaic .listing {
-  @extend .hvr-grow-shadow;
-  margin-bottom: 20px;
-  &:hover {
-    z-index: 500;
+  .stars {
+    display: inline-block;
+    padding-right: 20px;
   }
-  @media (max-width: $screen-md) {
-    margin-bottom: 40px;
-  }
-  p {
-    margin: 0;
+  .listing {
+    @extend .hvr-grow-shadow;
+    margin-bottom: 20px;
+    &:hover {
+      z-index: 500;
+    }
+    @media (max-width: $screen-md) {
+      margin-bottom: 40px;
+    }
+    p {
+      margin: 0;
+    }
   }
 }
 .room {
@@ -293,18 +303,37 @@ img {
       @media (min-width: $screen-md) {
         & > div {
           position: relative;
+          li.currentSection {
+            border-bottom: 2px solid $airbnbTheme2;
+          }
+          &.container-fluid {
+            display: none;
+          }
           &.navSnap {
           position: fixed;
           top: 0;
           z-index: 1000;
           background-color: white;
           &.container-fluid {
+            display: block;
             height: 51px;
             border-bottom: blue 1px solid;
             left: 0;
             right: 0;
             z-index: 999;
             border-bottom: 1px solid rgb(150,150,150);
+            h3 {
+              font-family: 'Lobster', cursive; 
+              color: $airbnbTheme;
+              float: left;
+              a {
+                text-decoration: none;
+                color: inherit;
+                &:visited {
+                  text-decoration: none;
+                }
+              }
+            }
           }
           ul {
             margin-bottom: 0;
@@ -328,6 +357,7 @@ img {
           font-size: 20px;
           line-height: 50px;
           z-index: 500;
+
           &:first-of-type {
             padding-left: 0;
           }
@@ -355,8 +385,11 @@ img {
       @media (min-width: $screen-md) {
         position: relative;
         margin-top: -50px;
-        & > div {
-          width: 300px;
+      }
+      & > div {
+        border: 1px solid rgb(150,150,150);
+        width: 300px;
+        @media(min-width: $screen-md) {
           position: relative;
           &.navSnap {
             position: fixed;
@@ -371,14 +404,13 @@ img {
             font-size: 30px;
             padding-left: 20px;
           }
-          p:nth-of-type(2) {
-
-          }
         }
       }
     }
-    .overview {
+    #overview {
       padding: 20px;
+      padding-top: 40px;
+      margin-top: -40px;
       & > div {
         border-bottom: 1px solid rgb(150,150,150);
         padding: 20px 0;
@@ -417,6 +449,10 @@ img {
     }
     .reviews {
       border-bottom: 1px solid rgb(150,150,150);
+      h3 {
+        margin: 0;
+        padding: 30px 0;
+      }
       ul {
         list-style-type: none;
         padding: 0;
@@ -437,12 +473,27 @@ img {
         }
       }
     }
-    .neighborhood {
+    #neighborhood {
+      margin-top: -40px;
+      padding-top: 40px;
       border-bottom: 1px solid rgb(150,150,150);
+      margin-bottom: 20px;
+      padding-bottom: 20px;
     }
   }
 }
-
+#reviews {
+  margin-top: -40px;
+  padding-top: 40px;
+}
+#host {
+  margin-top: -40px;
+  padding-top: 40px;
+  img {
+    margin: 20px 0;
+  }
+  border-bottom: 1px solid rgb(150,150,150);
+}
 .geosuggest {
   display: none;
   @media (max-width: $screen-md) {
@@ -499,7 +550,14 @@ img {
 }
 
 
-
+.footer {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 
 //bootstrap collapse breakpoint override
 @media (max-width: $screen-md) {

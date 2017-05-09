@@ -20,6 +20,8 @@ import pageOne from './pages/pageOne';
 import apartments from './pages/apartments';
 import pageTwo from './pages/pageTwo';
 import listing from './pages/listing';
+import Footer from './pages/footer';
+
 export default class App extends Component {
   render() {
     return (

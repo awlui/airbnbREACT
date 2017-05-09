@@ -59,7 +59,8 @@ const reducer = function(state=initialState, action) {
 		  		person_capacity: unwrappedListing.person_capacity,
 		  		picture_url: unwrappedListing.picture_url,
 		  		star_rating: unwrappedListing.star_rating,
-		  		id: unwrappedListing.id
+		  		id: unwrappedListing.id,
+		  		reviews_count: unwrappedListing.reviews_count
 
 
 		  	};

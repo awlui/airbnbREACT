@@ -4,6 +4,8 @@ import listingStore from '../../stores/listingStore';
 import listingActions from '../../actions/listingActions';
 import constants from '../../actions/constants';
 import Pagination from './pagination';
+import Waypoint from 'react-waypoint';
+
 export default class Reviews extends React.Component {
 	componentWillMount() {
 		this.unsubscribe = listingStore.subscribe(() => {
@@ -17,7 +19,6 @@ export default class Reviews extends React.Component {
   changePage = (page) => {
     listingStore.dispatch({type: constants.CHANGE_PAGE, page});
     listingStore.dispatch(listingActions.getReviewsById(this.props.id, (page-1)*10, 10));
-    return false;
   }
 	render() {
 		let reviews;
@@ -27,7 +28,19 @@ export default class Reviews extends React.Component {
 		}
 		return (
 			<div id="reviews" className="reviews col-md-8 col-sm-12">
-				<h3>{`${this.props.reviewsCount} ${(this.props.reviewsCount > 1) ? 'reviews' : 'review'}`}</h3>
+				<Waypoint topOffset={50} onLeave={(waypoint) => {
+					if (waypoint.currentPosition === "above" && waypoint.previousPosition === "inside") {
+						$('.listingNavBar li').removeClass('currentSection');
+						$('.listingNavBar li:nth-of-type(2)').addClass('currentSection');
+					}
+				}} onEnter={(waypoint) => {
+					if (waypoint.currentPosition === "inside" && waypoint.previousPosition === "above") {
+						$('.listingNavBar li').removeClass('currentSection');
+						$('.listingNavBar li:nth-of-type(1)').addClass('currentSection');
+					}
+
+				}}/>
+				<h3>{`${this.props.reviewsCount} ${(this.props.reviewsCount > 1) ? 'Reviews' : 'Review'}`}</h3>
 				{this.props.isFetchingReviews ? <p>Loading...</p> : null} 
 				<ul>
 					{reviews ? reviews.map((review, index) => 

@@ -44,7 +44,6 @@ export default class Application extends Component {
   }
   handleApply = (e, picker) => {
     let queryString, bounds;
-    console.log(picker, 'picker');
     if (isNaN(moment(picker.startDate)) || (isNaN(moment(picker.endDate)))) {
       return;
     }
@@ -101,7 +100,7 @@ export default class Application extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           {this.onHomePage()}
-          <Navbar.Toggle />
+{/*          <Navbar.Toggle />
           <Navbar.Collapse>
             <Nav className="tabs">
               <NavItem>
@@ -115,7 +114,7 @@ export default class Application extends Component {
               </NavItem>
             </Nav>
           </Navbar.Collapse>
-
+*/}
         </Navbar>
 
       </div>

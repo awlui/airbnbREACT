@@ -19,6 +19,7 @@ import {default as constants} from '../../actions/constants';
 import Apartments from './apartments';
 import Pagination from '../presentation/pagination';
 import Stars from '../presentation/stars';
+import Footer from './footer';
 const INPUT_STYLE = {
   boxSizing: `border-box`,
   MozBoxSizing: `border-box`,

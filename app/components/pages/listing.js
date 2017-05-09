@@ -33,7 +33,8 @@ import ListingNavigation from '../presentation/ListingNavigation';
 import BookingSideBar from '../presentation/bookingSideBar';
 import Overview from '../presentation/overview';
 import Reviews from '../presentation/reviews';
-
+import Host from '../presentation/host';
+import Footer from './footer';
 const GoogleMapContainer = withGoogleMap(props => (
   <GoogleMap
     center={props.center}
@@ -111,11 +112,26 @@ export default class Listing extends React.Component {
 					$('.bookingSideBar > div').removeClass('navSnap');
 				}}/>	
 				<div className="wrapper">
+					
 					<ListingNavigation />
-					<BookingSideBar price={this.state.data.price_formatted}/>
+					<BookingSideBar guestNumber={this.state.data.guests_included} price={this.state.data.price_formatted}/>
 					<Overview listing={this.state.data} />
+
 					<Reviews isFetchingReviews={this.state.isFetchingReviews} reviewsCount={this.state.data.reviews_count} id={this.state.id} currentPage={this.state.currentPage} reviewData={this.state.reviewData}/>
-					<div className="neighborhood col-md-8">
+					<Host hostInfo={this.state.data.user.user}/>
+					<div id="neighborhood"  className="col-md-8">
+						<Waypoint topOffset={50} onLeave={(waypoint) => {
+							if (waypoint.currentPosition === "above" && waypoint.previousPosition === "inside") {
+								$('.listingNavBar li').removeClass('currentSection');
+								$('.listingNavBar li:nth-of-type(4)').addClass('currentSection');
+							}
+						}} onEnter={(waypoint) => {
+							if (waypoint.currentPosition === "inside" && waypoint.previousPosition === "above") {
+								$('.listingNavBar li').removeClass('currentSection');
+								$('.listingNav li:nth-of-type(3)').addClass('currentSection');
+							}
+
+						}}/>
 						  <h3>The neighborhood</h3>
 				          <GoogleMapContainer
 				            containerElement={
@@ -129,6 +145,7 @@ export default class Listing extends React.Component {
 				          />
 					</div>
 				</div>
+				<Footer />
 			</div>
 		)
 		} else {

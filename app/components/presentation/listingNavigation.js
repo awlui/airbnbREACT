@@ -1,28 +1,43 @@
 import React from 'react';
-
 import {
   Link,
 } from "react-router-dom";
-export default ({}) => {
+import smoothScrolling from '../../helpers/smoothScrolling';
+
+export default class listingNavigation extends React.Component {
+	componentDidMount() {
+		smoothScrolling();
+	}
+	render() {
 	return (
 		<div className="listingNavBar col-md-8 col-sm-12">
 			<div>
 			<ul>
 				<li>
-					<Link to="#">Overview</Link>
+					<a href="#overview">Overview</a>
 				</li>
 				<li>
-					<Link to="#">Reviews</Link>
+					<a href="#reviews">Reviews</a>
 				</li>
 				<li>
-					<Link to="#">The Host</Link>
+					<a href="#host">The Host</a>
 				</li>
 				<li>
-					<Link to="#">Location</Link>
+					<a href="#neighborhood">Location</a>
 				</li>
 			</ul>
 			</div>
-			<div className="container-fluid"></div>
+			<div className="container-fluid">
+				<h3><a href="#root">Airbnb React</a></h3>
+			</div>
 		</div>
 	)
+	}
+
+
+
+
+
+
+
 }

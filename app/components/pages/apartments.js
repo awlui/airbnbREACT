@@ -15,7 +15,6 @@ let masonryOptions = {
     transitionDuration: '0.6s',
     columnWidth: 200
 };
-
 export default class Apartments extends React.Component {
 	onHover = (evt, index) => {
 		mapStore.dispatch({type: 'CHANGE_HIGHLIGHT', index});
@@ -35,10 +34,9 @@ export default class Apartments extends React.Component {
 					<p>{listing.listing.name}</p>
 					<p>{listing.pricing.rate.amount_formatted}</p>
 					{listing.listing.star_rating ? <Stars rating={listing.listing.star_rating} /> : null }
+					{listing.listing.reviews_count === 1 ? `1 review` : `${listing.listing.reviews_count} reviews`}
 				</div>
 				))}
-
-
 			</Masonry>
 		)
 	}
